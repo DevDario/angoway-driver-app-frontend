@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUseCase } from "../api/auth-usecases";
 import { useEffect, useState } from "react";
-import { getToken, saveToken } from "../utils/secure-store";
+import { getToken, saveToken, removeToken } from "../utils/secure-store";
 import { useRouter } from "expo-router";
 import { LoginResponse } from "../types/login-response";
 
@@ -42,8 +42,15 @@ export function useAuth() {
         },
     })
 
+    const logout = async () => {
+        removeToken();
+        router.replace("./auth/login")
+        queryClient.clear();
+        }
+
     return {
         useLogin,
+        logout,
         authToken,
         isCheckingAuth,
         authError
