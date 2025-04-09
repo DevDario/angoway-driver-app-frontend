@@ -4,7 +4,7 @@ import React from "react"
 
 
 
-export default function QueryProvider({children}:{children: ReactNode}) {
+export default function QueryProvider({children}:{children?: ReactNode}) {
     const [queryClient] = useState(() => new QueryClient())
     return (
         <QueryClientProvider client={queryClient}>
