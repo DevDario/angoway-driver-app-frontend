@@ -12,7 +12,7 @@ export default function Index() {
   useEffect(() => {
     if (!isCheckingAuth) {
       if (authToken) {
-        router.push("/dashboard");
+        router.replace("/dashboard");
       } else {
         router.replace("/auth/login");
       }
