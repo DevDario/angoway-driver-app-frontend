@@ -3,22 +3,25 @@ import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { faWarning, faClose, faCheck } from "@fortawesome/free-solid-svg-icons";
 
-export default function AlertModal({ text, type }: {text: string, type: string}) {
+type ModalType = "error" | "warning"
+
+export interface AlertModalProps {
+    text: string;
+    type: ModalType;
+}
+
+
+export default function AlertModal({ text, type }: AlertModalProps) {
     const [isVisible, setIsVisible] = useState(true)
+    const icon = type === "error" ? faClose : faWarning
 
     return (
         <Modal visible={isVisible} transparent animationType="fade">
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                    {type === "error" ? (
-                        <View style={{ width: 50, height: 50, borderRadius: 300, backgroundColor: "#0C6DFF", alignItems: "center", justifyContent: "center" }}>
-                            <FontAwesomeIcon icon={faClose} color="#FFF" size={30} />
-                        </View>
-                    ) : (
-                        <View style={{ width: 50, height: 50, borderRadius: 300, backgroundColor: "#0C6DFF", alignItems: "center", justifyContent: "center" }}>
-                            <FontAwesomeIcon icon={faWarning} color="#FFF" size={30} />
-                        </View>
-                    )}
+                    <View style={{ width: 50, height: 50, borderRadius: 300, backgroundColor: "#0C6DFF", alignItems: "center", justifyContent: "center" }}>
+                        <FontAwesomeIcon icon={icon} color="#FFF" size={30} />
+                    </View>
                     <Text style={styles.modalText}>
                         {text}
                     </Text>
