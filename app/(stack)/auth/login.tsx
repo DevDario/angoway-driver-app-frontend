@@ -3,7 +3,7 @@ import { ScrollView, Text, StyleSheet, View, ActivityIndicator } from "react-nat
 import Input from "@/app/components/Input"
 import Button from "@/app/components/Button";
 import {zodResolver} from "@hookform/resolvers/zod"
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { loginSchema } from "@/app/schemas/loginSchema";
 import { useAuth } from "@/app/hooks/useAuth";
@@ -28,7 +28,101 @@ export default function Login() {
   }
 
   return(
-    <Text>Login</Text>
+    <ScrollView
+      style={[styles.container]}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+    >
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Iniciar Sessão</Text>
+        <Text style={styles.headerDescription}>
+          Proporcione uma viagem segura para os <br/>
+          nossos cidadãos e turistas.
+        </Text>
+      </View>
+
+      <View style={styles.content}>
+        <View style={styles.inputContainer}>
+          <View style={styles.phoneInputContainer}>
+            <Text style={styles.inputLabel}>Seu Número</Text>
+            <Controller
+              control={control}
+              name="number"
+              render={({ field: { onChange, value } }) => (
+                <View>
+                  <Input
+                    placeholder={"Digite o seu número"}
+                    value={value}
+                    onChangeText={onChange}
+                    keyboardType={"phone-pad"}
+                  />
+                  {errors.number && <Text style={styles.error}>{errors.number.message}</Text>}
+                </View>
+              )}
+
+            />
+          </View>
+
+          <View style={styles.passwordInputContainer}>
+            <Text style={styles.inputLabel}>Senha</Text>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, value } }) => (
+                <View>
+                  <Input
+                    placeholder="Digite sua senha"
+                    value={value}
+                    onChangeText={onChange}
+                    keyboardType={"default"}
+                  />
+                  {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
+                </View>
+              )}
+            />
+          </View>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Button
+            text={isCheckingAuth ? "Entrando..." : "Entrar"}
+            style={styles.loginButton}
+            onPress={handleSubmit(handleLogin)}
+          />
+        </View>
+
+        {authError !== null && <View>
+          <AlertModal
+            text={authError}
+            type={"error"}
+          />
+        </View>}
+
+        {isCheckingAuth && <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingVertical: 15 }}>
+          <ActivityIndicator size="large" color="#007bff" />
+        </View>
+        }
+
+        <View style={styles.footerButtons}>
+          <Text>Ou</Text>
+
+          <Button
+            text={"Entrar com Facebook"}
+            icon={faFacebook}
+            style={styles.optionLoginButton}
+            onPress={() => router.push("https://facebook.com/oauth")}
+          />
+
+          <Button
+            text={"Entrar com Google"}
+            icon={faGoogle}
+            style={styles.optionLoginButton}
+            onPress={() => router.push("https://google.com/oauth")}
+          />
+        </View>
+      </View>
+    </ScrollView>
   )
 
 }
