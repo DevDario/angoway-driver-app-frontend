@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 export default function Index() {
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Dashboard</Text>
             </View>
@@ -19,7 +19,14 @@ export default function Index() {
                       <Text style={styles.routeContentText}>Kilamba</Text>
                 </View>
             </View>
-        </View>
+            <View style={styles.routeStatusContainer}>
+                  <Text style={styles.statusLabel}>Status</Text>
+                  <View style={styles.statusBar}>
+                       <View style={styles.statusIndicator}></View>
+                       <Text style={styles.statusText}> Em rota</Text>
+                  </View>
+            </View>
+        </ScrollView>
     )
 }
 
@@ -65,5 +72,37 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#FCFCFB",
         alignItems:"center"
+      },
+      routeStatusContainer:{
+        width:"100%",
+        alignItems:"flex-start",
+        paddingVertical:20
+      },
+      statusLabel:{
+        fontSize:14,
+        fontWeight:"bold",
+        color: "#0C6BFF",
+        paddingBottom: 15
+      },
+      statusBar:{
+        width:"100%",
+        height:45,
+        paddingHorizontal:10,
+        flexDirection:"row",
+        alignItems:"center",
+        backgroundColor:"#0C6BFF",
+        borderRadius:10
+      },
+      statusIndicator:{
+        width: 15,
+        height: 15,
+        borderRadius: 20,
+        backgroundColor:"#28A745" // change it dynamically
+      },
+      statusText:{
+        fontSize: 14,
+        fontWeight:"bold",
+        color:"#FCFCFB",
+        paddingLeft:10
       }
 })
