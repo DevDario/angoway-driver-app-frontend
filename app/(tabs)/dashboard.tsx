@@ -3,11 +3,23 @@ import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import InfoCard from "../components/InfoCard";
 import MapView from "react-native-maps"
+import { useEffect } from "react";
+
 
 
 
 
 export default function Index() {
+
+  useEffect(() => {
+    async function getBusInformations() {
+
+    }
+
+    getBusInformations()
+  }, [])
+
+
     return(
         <ScrollView style={styles.container}>
             <View style={styles.header}>
