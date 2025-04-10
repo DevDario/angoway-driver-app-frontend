@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import InfoCard from "../components/InfoCard";
 
 
 
@@ -25,6 +26,18 @@ export default function Index() {
                        <View style={styles.statusIndicator}></View>
                        <Text style={styles.statusText}> Em rota</Text>
                   </View>
+            </View>
+            <View style={styles.infoContainer}>
+               <InfoCard 
+                  label="Lugares"
+                  value={"10"}
+                  subInfo={"/30"}
+               />
+               <InfoCard 
+                  label="Chegada Em (est)"
+                  value={"45"}
+                  subInfo={"Min"}
+               />
             </View>
         </ScrollView>
     )
@@ -104,5 +117,10 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         color:"#FCFCFB",
         paddingLeft:10
+      },
+      infoContainer:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+        gap:10
       }
 })
