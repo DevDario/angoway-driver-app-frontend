@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import InfoCard from "../components/InfoCard";
+import MapView from "react-native-maps"
 
 
 
@@ -38,6 +39,10 @@ export default function Index() {
                   value={"45"}
                   subInfo={"Min"}
                />
+            </View>
+            <View style={styles.destinationContainer}>
+               <Text style={styles.destinationLabel}>Destino</Text>
+               {/* MapView */}
             </View>
         </ScrollView>
     )
@@ -122,5 +127,21 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"space-between",
         gap:10
+      },
+      destinationContainer:{
+        width:"100%",
+        alignItems:"flex-start",
+        paddingVertical:20
+      },
+      destinationLabel:{
+        fontSize:14,
+        fontWeight:"bold",
+        color:"#0C6BFF",
+        paddingBottom:15,
+      },
+      map:{
+        width:"100%",
+        height:350,
+        borderRadius:10
       }
 })
