@@ -1,4 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
+import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+
 
 
 
@@ -7,12 +10,13 @@ export default function Index() {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Dashboard</Text>
-
             </View>
             <View style={styles.routeCard}>
                 <Text style={styles.routeCardLabel}>Rota Atual</Text>
                 <View style={styles.routeCardContent}>
-
+                      <Text style={styles.routeContentText}>Benfica</Text>
+                      <FontAwesomeIcon icon={faArrowRightLong} size={20} color={"#FCFCFB"} />
+                      <Text style={styles.routeContentText}>Kilamba</Text>
                 </View>
             </View>
         </View>
@@ -43,15 +47,23 @@ const styles = StyleSheet.create({
         height: 130,
         padding: 15,
         borderRadius: 10,
-        borderWidth: 2,
-        borderColor: "#0C6BFF"
+        backgroundColor: "#0C6BFF"
       },
       routeCardLabel:{
         fontSize: 14,
-        fontWeight: 300,
-        color: "#333"
+        fontWeight: 400,
+        color: "#FCFCFB"
       },
       routeCardContent:{
-        
+        flexDirection:"row",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        paddingVertical:25
+      },
+      routeContentText:{
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#FCFCFB",
+        alignItems:"center"
       }
 })
