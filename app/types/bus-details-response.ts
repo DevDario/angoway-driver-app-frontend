@@ -5,5 +5,9 @@ export type busDetailsResponse = {
     totalSeats: number,
     timeToDestination: number,
     numberOfStops: number,
-    distanceToDestinationInKm: number
+    distanceToDestinationInKm: number,
+    destination:{
+        lat:string, 
+        lng: string
+    }
 }
