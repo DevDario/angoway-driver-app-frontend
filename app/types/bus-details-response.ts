@@ -8,7 +8,7 @@ export type busDetailsResponse = {
     numberOfStops: number,
     distanceToDestinationInKm: number,
     destination:{
-        lat:string, 
-        lng: string
+        lat:number, 
+        lng: number
     }
 }
