@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import InfoCard from "../components/InfoCard";
@@ -9,6 +9,12 @@ import { useBus } from "../hooks/useBus";
 export default function Index() {
 
   const { useBusDetails } = useBus()
+  
+  if(useBusDetails.isLoading){
+    return (
+      <ActivityIndicator style={{flex:1, justifyContent:"center", alignItems:"center", backgroundColor:"#FCFCB"}} size="large" color="#0C6BFF" />
+    )
+  }
 
   return(
         <ScrollView style={styles.container}>
