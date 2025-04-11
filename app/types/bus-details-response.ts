@@ -1,6 +1,7 @@
 export type busDetailsResponse = {
     status: boolean,
-    route: string,
+    routeStart: string,
+    routeEnd: string,
     availableSeats: number,
     totalSeats: number,
     timeToDestination: number,
