@@ -50,6 +50,20 @@ export default function Index() {
                   subInfo={"Min"}
                />
             </View>
+            <View style={styles.detailsContainer}>
+               <Text style={styles.detailsLabel}>Detalhes</Text>
+               <View style={styles.detailsContent}>
+               <InfoCard 
+                  label="Paragens"
+                  value={"4"}
+               />
+               <InfoCard 
+                  label={"Distância"}
+                  value={"120"}
+                  subInfo={"/Km"}
+               />
+               </View>
+            </View>
             <View style={styles.destinationContainer}>
                <Text style={styles.destinationLabel}>Destino</Text>
                {/* MapView */}
@@ -126,6 +140,23 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"space-between",
         gap:10
+      },
+      detailsContainer:{
+        width:"100%",
+        flexDirection:"column",
+        justifyContent:"center",
+      },
+      detailsContent:{
+        width:"100%",
+        flexDirection:"row",
+        justifyContent:"space-between",
+        gap:10
+      },
+      detailsLabel:{
+        fontSize:19,
+        fontWeight:"bold",
+        color:"#0C6BFF",
+        paddingVertical:15
       },
       destinationContainer:{
         width:"100%",
