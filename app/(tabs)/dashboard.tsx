@@ -4,49 +4,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import InfoCard from "../components/InfoCard";
 import MapView from "react-native-maps"
 import { useEffect } from "react";
-
-
-
-
+import { useBus } from "../hooks/useBus";
 
 export default function Index() {
 
-  useEffect(() => {
-    async function getBusInformations() {
+  const { useBusDetails } = useBus()
 
-    }
-
-    getBusInformations()
-  }, [])
-
-
-    return(
+  return(
         <ScrollView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Dashboard</Text>
                 <View style={styles.routeStatusContainer}>
                   <View style={styles.statusBar}>
-                       <Text style={styles.statusText}>Em Rota</Text>
+                       <Text style={styles.statusText}>{useBusDetails.data?.status}</Text>
                   </View>
             </View>
             </View>
             <View style={styles.routeCard}>
                 <Text style={styles.routeCardLabel}>Rota Atual</Text>
                 <View style={styles.routeCardContent}>
-                      <Text style={styles.routeContentText}>Benfica</Text>
+                      <Text style={styles.routeContentText}>{useBusDetails.data?.routeStart}</Text>
                       <FontAwesomeIcon icon={faArrowRightLong} size={20} color={"#FCFCFB"} />
-                      <Text style={styles.routeContentText}>Kilamba</Text>
+                      <Text style={styles.routeContentText}>{useBusDetails.data?.routeEnd}</Text>
                 </View>
             </View>
             <View style={styles.infoContainer}>
                <InfoCard 
                   label="Lugares"
-                  value={"10"}
-                  subInfo={"/30"}
+                  value={useBusDetails.data?.availableSeats+""}
+                  subInfo={useBusDetails.data?.totalSeats+""}
                />
                <InfoCard 
                   label="Chegada Em (est)"
-                  value={"45"}
+                  value={useBusDetails.data?.timeToDestination+""}
                   subInfo={"Min"}
                />
             </View>
@@ -55,11 +45,11 @@ export default function Index() {
                <View style={styles.detailsContent}>
                <InfoCard 
                   label="Paragens"
-                  value={"4"}
+                  value={useBusDetails.data?.numberOfStops+""}
                />
                <InfoCard 
                   label={"Distância"}
-                  value={"120"}
+                  value={useBusDetails.data?.distanceToDestinationInKm+""}
                   subInfo={"/Km"}
                />
                </View>
@@ -71,8 +61,8 @@ export default function Index() {
                <MapView
                     style={styles.map}
                     initialRegion={{
-                        latitude: -8.9975,
-                        longitude: 13.2619,
+                        latitude: useBusDetails.data?.destination.lat || -8.83682,
+                        longitude: useBusDetails.data?.destination.lng || 13.2443,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}
