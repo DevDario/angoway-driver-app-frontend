@@ -66,7 +66,24 @@ export default function Index() {
             </View>
             <View style={styles.destinationContainer}>
                <Text style={styles.destinationLabel}>Destino</Text>
-               {/* MapView */}
+               <View style={styles.destinationContent}>
+               {/*
+               <MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: -8.9975,
+                        longitude: 13.2619,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                    showsMyLocationButton={true}
+                    showsUserLocation={true}
+                    showsTraffic={true}
+                    zoomEnabled={true}
+                    zoomControlEnabled={true}
+                />
+                */}
+               </View>
             </View>
         </ScrollView>
     )
@@ -101,7 +118,7 @@ const styles = StyleSheet.create({
       },
       routeCardLabel:{
         fontSize: 14,
-        fontWeight: 400,
+        fontWeight: 300,
         color: "#FCFCFB"
       },
       routeCardContent:{
@@ -160,8 +177,14 @@ const styles = StyleSheet.create({
       },
       destinationContainer:{
         width:"100%",
+        flexDirection:"column",
         alignItems:"flex-start",
         paddingVertical:20
+      },
+      destinationContent:{
+        width:"100%",
+        flexDirection:"row",
+        justifyContent:"center"
       },
       destinationLabel:{
         fontSize:19,
