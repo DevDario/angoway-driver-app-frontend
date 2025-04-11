@@ -24,6 +24,11 @@ export default function Index() {
         <ScrollView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Dashboard</Text>
+                <View style={styles.routeStatusContainer}>
+                  <View style={styles.statusBar}>
+                       <Text style={styles.statusText}>Em Rota</Text>
+                  </View>
+            </View>
             </View>
             <View style={styles.routeCard}>
                 <Text style={styles.routeCardLabel}>Rota Atual</Text>
@@ -32,13 +37,6 @@ export default function Index() {
                       <FontAwesomeIcon icon={faArrowRightLong} size={20} color={"#FCFCFB"} />
                       <Text style={styles.routeContentText}>Kilamba</Text>
                 </View>
-            </View>
-            <View style={styles.routeStatusContainer}>
-                  <Text style={styles.statusLabel}>Status</Text>
-                  <View style={styles.statusBar}>
-                       <View style={styles.statusIndicator}></View>
-                       <Text style={styles.statusText}> Em rota</Text>
-                  </View>
             </View>
             <View style={styles.infoContainer}>
                <InfoCard 
@@ -84,7 +82,8 @@ const styles = StyleSheet.create({
         height: 130,
         padding: 15,
         borderRadius: 10,
-        backgroundColor: "#0C6BFF"
+        backgroundColor: "#0C6BFF",
+        marginBottom:15
       },
       routeCardLabel:{
         fontSize: 14,
@@ -104,36 +103,24 @@ const styles = StyleSheet.create({
         alignItems:"center"
       },
       routeStatusContainer:{
-        width:"100%",
-        alignItems:"flex-start",
+        width:115,
+        alignItems:"flex-end",
         paddingVertical:20
-      },
-      statusLabel:{
-        fontSize:14,
-        fontWeight:"bold",
-        color: "#0C6BFF",
-        paddingBottom: 15
       },
       statusBar:{
         width:"100%",
         height:45,
-        paddingHorizontal:10,
         flexDirection:"row",
         alignItems:"center",
+        alignContent:"center",
+        justifyContent:"center",
         backgroundColor:"#0C6BFF",
         borderRadius:10
-      },
-      statusIndicator:{
-        width: 15,
-        height: 15,
-        borderRadius: 20,
-        backgroundColor:"#28A745" // change it dynamically
       },
       statusText:{
         fontSize: 14,
         fontWeight:"bold",
         color:"#FCFCFB",
-        paddingLeft:10
       },
       infoContainer:{
         flexDirection:"row",
@@ -146,7 +133,7 @@ const styles = StyleSheet.create({
         paddingVertical:20
       },
       destinationLabel:{
-        fontSize:14,
+        fontSize:19,
         fontWeight:"bold",
         color:"#0C6BFF",
         paddingBottom:15,
