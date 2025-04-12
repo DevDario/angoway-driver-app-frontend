@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getToken, saveToken, removeToken } from "../utils/secure-store";
 import { useRouter } from "expo-router";
 import { LoginResponse } from "../types/login-response";
+import { AxiosError } from "axios";
 
 export function useAuth() {
     const queryClient = useQueryClient()
@@ -31,11 +32,11 @@ export function useAuth() {
         onSuccess: async (data: LoginResponse) => {
             saveToken(data.access_token)
             setAuthToken(data.access_token)
-            router.replace("/")
+            router.replace("/dashboard")
             queryClient.invalidateQueries(["user"])
         },
-        onError: async (req: any) => {
-            setAuthError(req.response.data.message)
+        onError: (error: AxiosError) => {
+            setAuthError(error.message)
         },
         onSettled: () => {
             setIsCheckingAuth(false)
