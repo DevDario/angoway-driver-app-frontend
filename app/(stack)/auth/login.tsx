@@ -89,6 +89,7 @@ export default function Login() {
             text={isCheckingAuth ? "Entrando..." : "Entrar"}
             style={styles.loginButton}
             onPress={handleSubmit(handleLogin)}
+            disabled={isCheckingAuth}
           />
         </View>
 
