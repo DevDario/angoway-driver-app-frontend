@@ -6,13 +6,14 @@ export interface ButtonProps extends TouchableOpacityProps {
   text: string;
   onPress: () => void;
   icon?: IconProp;
-  style?: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>,
+  disabled?:boolean
 }
 
 
-export default function Button({ text = "click", onPress, icon, style }: ButtonProps) {
+export default function Button({ text = "click", onPress, icon, style, disabled }: ButtonProps) {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress} disabled={disabled}>
       {icon && <FontAwesomeIcon icon={icon} style={{ color: "#0C6DFF" }} />}
       <Text style={[styles.text]}>{text}</Text>
     </TouchableOpacity>
