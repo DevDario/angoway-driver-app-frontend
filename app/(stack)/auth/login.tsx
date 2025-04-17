@@ -37,7 +37,7 @@ export default function Login() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Iniciar Sessão</Text>
         <Text style={styles.headerDescription}>
-          Proporcione uma viagem segura para os <br/>
+          Proporcione uma viagem segura para os
           nossos cidadãos e turistas.
         </Text>
       </View>
