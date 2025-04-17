@@ -1,20 +1,28 @@
-import { MMKV } from "react-native-mmkv"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const TOKEN_KEY: string = process.env.EXPO_PUBLIC_TOKEN_KEY || "access_token"
+const TOKEN_KEY: string = process.env.EXPO_PUBLIC_TOKEN_KEY || "access_token";
 
-export const storage = new MMKV({
-    id: "secureStore",
-    //encryptionKey: process.env.EXPO_PUBLIC_MMKV_ENCRYPTION_KEY
-})
-
-export function saveToken(token: string) {
-    storage.set(TOKEN_KEY, token);
+export async function saveToken(token: string) {
+  try {
+    await AsyncStorage.setItem(TOKEN_KEY, token);
+  } catch (error) {
+    console.error("Error saving token:", error);
+  }
 }
 
-export function getToken(): string | undefined | null {
-    return storage.getString(TOKEN_KEY)
+export async function getToken(): Promise<string | null> {
+  try {
+    return await AsyncStorage.getItem(TOKEN_KEY);
+  } catch (error) {
+    console.error("Error getting token:", error);
+    return null;
+  }
 }
 
-export function removeToken() {
-    storage.delete(TOKEN_KEY);
+export async function removeToken() {
+  try {
+    await AsyncStorage.removeItem(TOKEN_KEY);
+  } catch (error) {
+    console.error("Error removing token:", error);
+  }
 }
