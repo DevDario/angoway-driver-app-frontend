@@ -7,7 +7,7 @@ const socket = io(BACKEND_URL, {
   autoConnect: false,
   transports: ["websocket"],
   auth: async (cb) => {
-    const token = getToken();
+    const token = await getToken();
     cb({ token });
   },
 });
