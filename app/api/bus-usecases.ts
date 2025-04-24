@@ -4,7 +4,7 @@ import { getToken } from "../utils/secure-store";
 
 
 export const getBusDetailsUseCase = async ():Promise<busDetailsResponse> => {
-    const token = getToken()
+    const token = await getToken()
     const response = await api.get("/bus/dashboard-details",{
         headers:{
             Authorization: `Bearer ${token}`
