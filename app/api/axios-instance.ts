@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const api = axios.create({
-    baseURL: process.env.EXPO_PUBLIC_BACKEND_URL || "https://angoway-app-backend.onrender.com",
+    baseURL: "http://172.20.10.4:3000",
     headers: {
         "Content-Type": "application/json"
     },
