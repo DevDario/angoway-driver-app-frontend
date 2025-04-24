@@ -39,8 +39,6 @@ export default function Map() {
         showsMyLocationButton={true}
         showsUserLocation={true}
         showsTraffic={true}
-        zoomEnabled={true}
-        zoomControlEnabled={true}
       />
     </View>
   );
