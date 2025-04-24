@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { requestLocationPermission } from "../utils/request-location-permission";
 import { useDriverLocation } from "../hooks/useDriverLocation";
+import MapView from "react-native-maps";
 
 export default function Map() {
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -27,7 +28,20 @@ export default function Map() {
 
   return (
     <View style={styles.container}>
-      <Text>Map Page !</Text>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: -8.8390,
+          longitude: 13.2894,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        }}
+        showsMyLocationButton={true}
+        showsUserLocation={true}
+        showsTraffic={true}
+        zoomEnabled={true}
+        zoomControlEnabled={true}
+      />
     </View>
   );
 }
