@@ -95,8 +95,6 @@ export default function Index() {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
-            showsMyLocationButton={true}
-            showsUserLocation={true}
             showsTraffic={true}
           />
         </View>
