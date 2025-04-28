@@ -27,7 +27,7 @@ export default function Login() {
     useLogin.mutate(data)
   }
 
-  return(
+  return (
     <ScrollView
       style={[styles.container]}
       showsHorizontalScrollIndicator={false}
@@ -37,8 +37,7 @@ export default function Login() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Iniciar Sessão</Text>
         <Text style={styles.headerDescription}>
-          Proporcione uma viagem segura para os
-          nossos cidadãos e turistas.
+          Proporcione uma viagem segura para os nossos cidadãos e turistas.
         </Text>
       </View>
 
@@ -57,10 +56,11 @@ export default function Login() {
                     onChangeText={onChange}
                     keyboardType={"phone-pad"}
                   />
-                  {errors.number && <Text style={styles.error}>{errors.number.message}</Text>}
+                  {errors.number && (
+                    <Text style={styles.error}>{errors.number.message}</Text>
+                  )}
                 </View>
               )}
-
             />
           </View>
 
@@ -77,7 +77,9 @@ export default function Login() {
                     onChangeText={onChange}
                     keyboardType={"default"}
                   />
-                  {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
+                  {errors.password && (
+                    <Text style={styles.error}>{errors.password.message}</Text>
+                  )}
                 </View>
               )}
             />
@@ -87,23 +89,31 @@ export default function Login() {
         <View style={styles.buttonContainer}>
           <Button
             text={isCheckingAuth ? "Entrando..." : "Entrar"}
-            style={styles.loginButton}
+            buttonStyle={styles.loginButton}
+            textStyle={{ color: "#121212" }}
             onPress={handleSubmit(handleLogin)}
             disabled={isCheckingAuth}
           />
         </View>
 
-        {authError !== null && <View>
-          <AlertModal
-            text={authError}
-            type={"error"}
-          />
-        </View>}
+        {authError !== null && (
+          <View>
+            <AlertModal text={authError} type={"error"} />
+          </View>
+        )}
 
-        {isCheckingAuth && <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingVertical: 15 }}>
-          <ActivityIndicator size="large" color="#007bff" />
-        </View>
-        }
+        {isCheckingAuth && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingVertical: 15,
+            }}
+          >
+            <ActivityIndicator size="large" color="#007bff" />
+          </View>
+        )}
 
         <View style={styles.footerButtons}>
           <Text>Ou</Text>
@@ -111,20 +121,22 @@ export default function Login() {
           <Button
             text={"Entrar com Facebook"}
             icon={faFacebook}
-            style={styles.optionLoginButton}
+            buttonStyle={styles.optionLoginButton}
+            textStyle={{ color: "#121212" }}
             onPress={() => router.push("https://facebook.com/oauth")}
           />
 
           <Button
             text={"Entrar com Google"}
             icon={faGoogle}
-            style={styles.optionLoginButton}
+            buttonStyle={styles.optionLoginButton}
+            textStyle={{ color: "#121212" }}
             onPress={() => router.push("https://google.com/oauth")}
           />
         </View>
       </View>
     </ScrollView>
-  )
+  );
 
 }
 
