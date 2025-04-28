@@ -1,4 +1,4 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { IconProp, IconStyle } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   TouchableOpacity,
@@ -14,6 +14,7 @@ export interface ButtonProps extends TouchableOpacityProps {
   text: string;
   onPress: () => void;
   icon?: IconProp;
+  iconColor?: string;
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   disabled?: boolean;
@@ -26,6 +27,7 @@ export default function Button({
   buttonStyle,
   textStyle,
   disabled,
+  iconColor,
 }: ButtonProps) {
   return (
     <TouchableOpacity
@@ -33,7 +35,13 @@ export default function Button({
       onPress={onPress}
       disabled={disabled}
     >
-      {icon && <FontAwesomeIcon icon={icon} style={{ color: "#0C6DFF" }} />}
+      {icon && (
+        <FontAwesomeIcon
+          icon={icon}
+          style={{ color: iconColor ? iconColor : "#0C6DFF" }}
+          size={13}
+        />
+      )}
       <Text style={[styles.text, textStyle]}>{text}</Text>
     </TouchableOpacity>
   );
