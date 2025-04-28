@@ -7,9 +7,15 @@ import {
 } from "react-native";
 import { useBus } from "../hooks/useBus";
 import Button from "../components/Button";
+import AlertModal from "../components/AlertModal";
 
 export default function Manage() {
   const { data, isLoading } = useBus().useBusDetails;
+  const { useUpdateBusDetails, error } = useBus();
+
+  function handleDataUpdate(data: any) {
+    useUpdateBusDetails.mutate(data);
+  }
 
   if (isLoading) {
     return (
@@ -56,20 +62,27 @@ export default function Manage() {
           <Button
             buttonStyle={styles.customButtonStyle}
             text="Acidente"
-            onPress={() => {}}
+            onPress={() => handleDataUpdate}
           />
           <Button
             buttonStyle={styles.customButtonStyle}
             text="Manutenção"
-            onPress={() => {}}
+            onPress={() => handleDataUpdate}
           />
           <Button
             buttonStyle={styles.customButtonStyle}
             text="Avaria Total"
-            onPress={() => {}}
+            onPress={() => handleDataUpdate}
           />
         </View>
       </View>
+
+      {error !== null && (
+        <View>
+          <AlertModal text={error} type={"error"} />
+        </View>
+      )}
+
       <View style={styles.footer}>
         <Button
           buttonStyle={styles.footerButton}
