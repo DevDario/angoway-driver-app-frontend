@@ -1,21 +1,40 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { TouchableOpacity, StyleSheet, Text, TouchableOpacityProps, StyleProp, ViewStyle } from "react-native";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  TouchableOpacityProps,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
 
 export interface ButtonProps extends TouchableOpacityProps {
   text: string;
   onPress: () => void;
   icon?: IconProp;
-  style?: StyleProp<ViewStyle>,
-  disabled?:boolean
+  buttonStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  disabled?: boolean;
 }
 
-
-export default function Button({ text = "click", onPress, icon, style, disabled }: ButtonProps) {
+export default function Button({
+  text = "click",
+  onPress,
+  icon,
+  buttonStyle,
+  textStyle,
+  disabled,
+}: ButtonProps) {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress} disabled={disabled}>
+    <TouchableOpacity
+      style={[styles.button, buttonStyle]}
+      onPress={onPress}
+      disabled={disabled}
+    >
       {icon && <FontAwesomeIcon icon={icon} style={{ color: "#0C6DFF" }} />}
-      <Text style={[styles.text]}>{text}</Text>
+      <Text style={[styles.text, textStyle]}>{text}</Text>
     </TouchableOpacity>
   );
 }
@@ -35,7 +54,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
   },
-  text:{
-    fontWeight:600,
-  }
+  text: {
+    color: "#fcfcfb",
+    fontWeight: 600,
+  },
 });
