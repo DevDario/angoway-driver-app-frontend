@@ -1,14 +1,29 @@
 import { busDetailsResponse } from "../types/bus-details-response";
 import { api } from "./axios-instance";
 import { getToken } from "../utils/secure-store";
-
+import { updateBusDetails } from "../types/update-bus-details";
 
 export const getBusDetailsUseCase = async () => {
-    const token = await getToken()
-    const response = await api.get("/bus/dashboard-details",{
-        headers:{
-            Authorization: `Bearer ${token}`
-        }
-    })
-    return response.data as busDetailsResponse
-}
+  const token = await getToken();
+  const response = await api.get("/bus/dashboard-details", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data as busDetailsResponse;
+};
+
+export const updateBusDetailsUseCase = async ({
+  status,
+  currentLoad,
+}: updateBusDetails) => {
+  const token = await getToken();
+  const response = await api.patch("/bus/dashboard-details", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    status,
+    currentLoad,
+  });
+  return response.data;
+};
