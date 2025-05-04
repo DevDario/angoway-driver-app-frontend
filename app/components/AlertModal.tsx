@@ -3,7 +3,7 @@ import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { faWarning, faClose, faCheck } from "@fortawesome/free-solid-svg-icons";
 
-type ModalType = "error" | "warning"
+type ModalType = "error" | "warning" | "success"
 
 export interface AlertModalProps {
     text: string;
@@ -13,7 +13,7 @@ export interface AlertModalProps {
 
 export default function AlertModal({ text, type }: AlertModalProps) {
     const [isVisible, setIsVisible] = useState(true)
-    const icon = type === "error" ? faClose : faWarning
+    const icon = type === "error" ? faClose : faWarning || type === "success" ? faCheck : faClose
 
     return (
         <Modal visible={isVisible} transparent animationType="fade">
