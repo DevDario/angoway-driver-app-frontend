@@ -13,17 +13,16 @@ export const getBusDetailsUseCase = async () => {
   return response.data as busDetailsResponse;
 };
 
-export const updateBusDetailsUseCase = async ({
-  status,
-  currentLoad,
-}: updateBusDetails) => {
+export const updateBusDetailsUseCase = async ({status, currentLoad}: updateBusDetails) => {
   const token = await getToken();
-  const response = await api.patch("/bus/dashboard-details", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const busId = 1 // replace with id from the token
+  const response = await api.patch(`/bus/dashboard-details/${busId}`, {
     status,
-    currentLoad,
+    currentLoad
+  }, {
+    headers: {
+      Authorization:`Bearer ${token}`
+    },
   });
   return response.data;
-};
+}
