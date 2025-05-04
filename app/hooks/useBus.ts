@@ -7,6 +7,8 @@ import { useState } from "react";
 
 export function useBus() {
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
   const useBusDetails = useQuery({
     queryKey: ["busDetails"],
     queryFn: getBusDetailsUseCase,
@@ -16,9 +18,17 @@ export function useBus() {
 
   const useUpdateBusDetails = useMutation({
     mutationFn: updateBusDetailsUseCase,
-    onSuccess: () => {},
-    onError: (req: any) => {
-      setError(req.response.data.message);
+    onMutate: () => {
+      setError(null);
+      setSuccess(null);
+    },
+    onSuccess: async (res: any) => {
+      setError(null);
+      setSuccess(res.message);
+    },
+    onError: (res: any) => {
+      setError(res.message);
+      setSuccess(null);
     },
   });
 
@@ -26,5 +36,6 @@ export function useBus() {
     useBusDetails,
     useUpdateBusDetails,
     error,
+    success,
   };
 }
