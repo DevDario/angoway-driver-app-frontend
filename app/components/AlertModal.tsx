@@ -40,17 +40,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "rgba(252, 252, 253, 0.71)",
+        backgroundColor: "rgba(189, 189, 189, 0.71)",
         filter: "blur(30)"
     },
     modalContent: {
         backgroundColor: "#FBFCFF",
         padding: 20,
-        borderRadius: 10,
+        borderRadius: 20,
         width: "80%",
-        height: 240,
-        borderWidth: 2,
-        borderColor: "#0C6DFF",
+        height: 220,
         alignItems: "center",
         justifyContent: "space-between"
     },
@@ -58,20 +56,18 @@ const styles = StyleSheet.create({
         width: 120,
         padding: 15,
         alignItems: "center",
-        borderRadius: 10,
-        backgroundColor: "#FFF",
-        borderWidth: 1,
-        borderColor: "#0C6DFF",
+        borderRadius: 100,
+        backgroundColor: "#0C6DFF",
     },
     modalText: {
         textAlign: "center",
         color: "#212121",
         fontWeight: "800",
-        fontSize: 21,
+        fontSize: 19,
     },
     buttonText: {
         textAlign: "center",
         fontWeight: "700",
-        color: "#212121",
+        color: "#fff",
     }
 })
