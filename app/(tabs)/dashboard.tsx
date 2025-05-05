@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,10 +12,43 @@ import InfoCard from "../components/InfoCard";
 import MapView from "react-native-maps";
 import { useBus } from "../hooks/useBus";
 import { Stop } from "../types/stops";
+import { requestLocationPermission } from "../utils/request-location-permission";
+import { useDriverLocation } from "../hooks/useDriverLocation";
+import AlertModal from "../components/AlertModal";
 
 export default function Index() {
   const { useBusDetails } = useBus();
   const { data, isLoading } = useBusDetails;
+
+  const [permissionGranted, setPermissionGranted] = useState(false);
+
+  useEffect(() => {
+    const requestPermissionForLocation = async () => {
+      const granted = await requestLocationPermission();
+      if (!granted) {
+        <AlertModal
+          text="Para usar o aplicativo, você precisa permitir o acesso à localização."
+          type="error"
+          key={"location-permission"}
+        />
+      }
+      setPermissionGranted(granted);
+    };
+    requestPermissionForLocation();
+  }, []);
+
+  useDriverLocation(permissionGranted);
+
+  if (!permissionGranted) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0C6BFF" />
+        <Text style={styles.permissionText}>
+          Aguardando Permissão...
+        </Text>
+      </View>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -71,7 +105,11 @@ export default function Index() {
         <View style={styles.detailsContent}>
           <InfoCard
             label="Paragens"
-            value={(data?.route.stops as Stop[])?.map((stop: Stop) => stop.name).join(", ") || ""}
+            value={
+              (data?.route.stops as Stop[])
+                ?.map((stop: Stop) => stop.name)
+                .join(", ") || ""
+            }
             valueTextSize={15}
           />
           <InfoCard
@@ -208,5 +246,17 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: 170,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FCFCFB",
+  },
+  permissionText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#0C6BFF",
+    marginTop: 10,
   },
 });
