@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   getBusDetailsUseCase,
   updateBusDetailsUseCase,
+  queryRoutesUseCase,
 } from "../api/bus-usecases";
 import { useState } from "react";
 
@@ -32,9 +33,22 @@ export function useBus() {
     },
   });
 
+  const useQueryRoutes = (query: string) =>
+    useQuery({
+      queryKey: ["routes", query],
+      queryFn: () => queryRoutesUseCase(query),
+      staleTime: 1000 * 60 * 5,
+      cacheTime: 1000 * 60 * 10,
+      enabled: query.trim().length > 0,
+      onError: (res: any) => {
+        setError(res.message);
+      },
+    });
+
   return {
     useBusDetails,
     useUpdateBusDetails,
+    useQueryRoutes,
     error,
     success,
   };
