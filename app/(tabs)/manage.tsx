@@ -1,9 +1,21 @@
-import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import { useBus } from "../hooks/useBus";
 import Button from "../components/Button";
 import AlertModal from "../components/AlertModal";
 import { useState, useEffect } from "react";
 import { updateBusDetails } from "../types/update-bus-details";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {
+  faArrowRightArrowLeft,
+  faArrowRightLong,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Manage() {
   const { useBusDetails } = useBus();
@@ -102,6 +114,30 @@ export default function Manage() {
             onPress={() => handleStatusUpdate("Avaria Total")}
           />
         </View>
+      </View>
+      <View style={styles.routeManagment}>
+        <View style={styles.separator}></View>
+        <View style={styles.routeManagmentHeader}>
+          <Text style={styles.routeLabel}>Mudar Rota</Text>
+          <TouchableOpacity style={styles.routeManagmentHeaderIconBox} onPress={() => {}}>
+            <FontAwesomeIcon
+              icon={faArrowRightArrowLeft}
+              size={20}
+              color={"#FCFCFB"}
+            />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.routeCardContent} onPress={() => {}}>
+          <Text style={styles.routeContentText}>{data?.route.origin + ""}</Text>
+          <FontAwesomeIcon
+            icon={faArrowRightLong}
+            size={20}
+            color={"#0C6BFF"}
+          />
+          <Text style={styles.routeContentText}>
+            {data?.route.destination + ""}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {alertMessage && (
@@ -207,6 +243,48 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
+  },
+  routeManagment: {
+    flexDirection: "column",
+    paddingTop: 15,
+  },
+  routeManagmentHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    alignContent: "center",
+    paddingTop: 5,
+  },
+  routeManagmentHeaderIconBox: {
+    width: 40,
+    height: 40,
+    backgroundColor: "#0C6BFF",
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+  },
+  routeLabel: {
+    fontSize: 14,
+    fontWeight: 300,
+  },
+  routeOptions: {
+    paddingTop: 15,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  routeCardContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    paddingTop: 30,
+  },
+  routeContentText: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#0C6BFF",
+    alignItems: "center",
   },
   footer: {
     flex: 1,
