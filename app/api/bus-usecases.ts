@@ -26,3 +26,13 @@ export const updateBusDetailsUseCase = async ({status, currentLoad}: updateBusDe
   });
   return response.data;
 }
+
+export const queryRoutesUseCase = async (query: string) => {
+  const token = await getToken();
+  const response = await api.get(`/routes/search/${query}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
