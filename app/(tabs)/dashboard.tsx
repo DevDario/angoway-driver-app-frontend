@@ -10,12 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import InfoCard from "../components/InfoCard";
 import MapView from "react-native-maps";
 import { useBus } from "../hooks/useBus";
+import { Stop } from "../types/stops";
 
 export default function Index() {
   const { useBusDetails } = useBus();
-  const { data, isLoading, isError } = useBusDetails;
+  const { data, isLoading } = useBusDetails;
 
-  // use skeleton loading
   if (isLoading) {
     return (
       <ActivityIndicator
@@ -44,9 +44,7 @@ export default function Index() {
       <View style={styles.routeCard}>
         <Text style={styles.routeCardLabel}>Rota Atual</Text>
         <View style={styles.routeCardContent}>
-          <Text style={styles.routeContentText}>
-            {data?.route.origin + ""}
-          </Text>
+          <Text style={styles.routeContentText}>{data?.route.origin + ""}</Text>
           <FontAwesomeIcon
             icon={faArrowRightLong}
             size={20}
@@ -73,7 +71,8 @@ export default function Index() {
         <View style={styles.detailsContent}>
           <InfoCard
             label="Paragens"
-            value={data?.numberOfStops + ""}
+            value={(data?.route.stops as Stop[])?.map((stop: Stop) => stop.name).join(", ") || ""}
+            valueTextSize={15}
           />
           <InfoCard
             label={"Distância"}
