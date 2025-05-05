@@ -13,23 +13,41 @@ export const getBusDetailsUseCase = async () => {
   return response.data as busDetailsResponse;
 };
 
-export const updateBusDetailsUseCase = async ({status, currentLoad}: updateBusDetails) => {
+export const updateBusDetailsUseCase = async ({
+  status,
+  currentLoad,
+}: updateBusDetails) => {
   const token = await getToken();
-  const busId = 1 // replace with id from the token
-  const response = await api.patch(`/bus/dashboard-details/${busId}`, {
-    status,
-    currentLoad
-  }, {
-    headers: {
-      Authorization:`Bearer ${token}`
+  const busId = 1; // replace with id from the token
+  const response = await api.patch(
+    `/bus/dashboard-details/${busId}`,
+    {
+      status,
+      currentLoad,
     },
-  });
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
-}
+};
 
 export const queryRoutesUseCase = async (query: string) => {
   const token = await getToken();
   const response = await api.get(`/routes/search/${query}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export const changeBusRouteUseCase = async (routeId: number) => {
+  const token = await getToken();
+  const driverId = 9; // replace with id from the token
+  const response = await api.patch(`/bus/route/${driverId}/${routeId}`,{}, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
