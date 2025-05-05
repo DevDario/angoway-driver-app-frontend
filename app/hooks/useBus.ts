@@ -3,6 +3,7 @@ import {
   getBusDetailsUseCase,
   updateBusDetailsUseCase,
   queryRoutesUseCase,
+  changeBusRouteUseCase,
 } from "../api/bus-usecases";
 import { useState } from "react";
 
@@ -45,10 +46,27 @@ export function useBus() {
       },
     });
 
+  const useChangeBusRoute = useMutation({
+    mutationFn: changeBusRouteUseCase,
+    onMutate: () => {
+      setError(null);
+      setSuccess(null);
+    },
+    onSuccess: async (res: any) => {
+      setError(null);
+      setSuccess(res.message);
+    },
+    onError: (res: any) => {
+      setError(res.message);
+      setSuccess(null);
+    },
+  });
+
   return {
     useBusDetails,
     useUpdateBusDetails,
     useQueryRoutes,
+    useChangeBusRoute,
     error,
     success,
   };
