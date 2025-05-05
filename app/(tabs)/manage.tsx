@@ -1,20 +1,47 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
 import { useBus } from "../hooks/useBus";
 import Button from "../components/Button";
 import AlertModal from "../components/AlertModal";
+import { useState, useEffect } from "react";
+import { updateBusDetails } from "../types/update-bus-details";
 
 export default function Manage() {
-  const { data, isLoading } = useBus().useBusDetails;
+  const { useBusDetails } = useBus();
+  const { isLoading, data } = useBusDetails;
   const { useUpdateBusDetails, error } = useBus();
 
-  function handleDataUpdate(data: any) {
+  const [seats, setSeats] = useState(0);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (data?.currentLoad !== undefined) {
+      setSeats(data.currentLoad);
+    }
+  }, [data]);
+
+  function handleDataUpdate(data: updateBusDetails) {
     useUpdateBusDetails.mutate(data);
+  }
+
+  function handleAddSeat() {
+    const updatedSeats = seats + 1;
+    setSeats(updatedSeats);
+    handleDataUpdate({ currentLoad: updatedSeats });
+  }
+
+  function handleRemoveSeat() {
+    if (seats > 0) {
+      const updatedSeats = seats - 1;
+      setSeats(updatedSeats);
+      handleDataUpdate({ currentLoad: updatedSeats });
+    }
+  }
+
+  function handleStatusUpdate(status: string) {
+    handleDataUpdate({ status });
+    if (status === "Acidente") {
+      setAlertMessage("Um alerta foi enviado para a central");
+    }
   }
 
   if (isLoading) {
@@ -40,17 +67,17 @@ export default function Manage() {
       <View style={styles.seatsManagment}>
         <Text style={styles.seatsLabel}>Lugares Vagos</Text>
         <View style={styles.seatsManagmentContainer}>
-          <Text style={styles.seatsNumber}>{data?.currentLoad}</Text>
+          <Text style={styles.seatsNumber}>{seats}</Text>
           <View style={styles.customButtonStyleContainer}>
             <Button
               buttonStyle={styles.customButtonStyle}
               text="Adicionar"
-              onPress={() => {}}
+              onPress={handleAddSeat}
             />
             <Button
               buttonStyle={styles.customButtonStyle}
               text="Remover"
-              onPress={() => {}}
+              onPress={handleRemoveSeat}
             />
           </View>
         </View>
@@ -62,20 +89,26 @@ export default function Manage() {
           <Button
             buttonStyle={styles.customButtonStyle}
             text="Acidente"
-            onPress={() => handleDataUpdate}
+            onPress={() => handleStatusUpdate("Acidente")}
           />
           <Button
             buttonStyle={styles.customButtonStyle}
             text="Manutenção"
-            onPress={() => handleDataUpdate}
+            onPress={() => handleStatusUpdate("Manutenção")}
           />
           <Button
             buttonStyle={styles.customButtonStyle}
             text="Avaria Total"
-            onPress={() => handleDataUpdate}
+            onPress={() => handleStatusUpdate("Avaria Total")}
           />
         </View>
       </View>
+
+      {alertMessage && (
+        <View>
+          <AlertModal text={alertMessage} type={"warning"} />
+        </View>
+      )}
 
       {error !== null && (
         <View>
@@ -86,8 +119,22 @@ export default function Manage() {
       <View style={styles.footer}>
         <Button
           buttonStyle={styles.footerButton}
-          text="Encerrar Viagem"
-          onPress={() => {}}
+          text={
+            data?.status === "OFF_SERVICE"
+              ? "Iniciar Viagem"
+              : data?.status === "Acidente"
+              ? "Viagem Cancelada"
+              : "Encerrar Viagem"
+          }
+          onPress={() => {
+            if (data?.status !== "Acidente") {
+              handleDataUpdate({
+                status:
+                  data?.status === "OFF_SERVICE" ? "IN_TRANSIT" : "OFF_SERVICE",
+              });
+            }
+          }}
+          disabled={data?.status === "Acidente"}
         />
       </View>
     </ScrollView>
