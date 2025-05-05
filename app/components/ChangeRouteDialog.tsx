@@ -15,21 +15,14 @@ export default function ChangeRouteDialog({
   suggestions,
   onSearch,
   value,
+  onSelect,
 }: {
   suggestions: { id: number; origin: string; destination: string }[];
-    onSearch: (query: string) => void;
+  onSearch: (query: string) => void;
   value: string;
+  onSelect: (route: { id: number; origin: string; destination: string }) => void;
 }) {
   const [isVisible, setIsVisible] = useState<boolean>(true);
-  const [routes, setRoutes] = useState<{
-    id: number;
-    origin: string;
-    destination: string;
-  }>({
-    id: 0,
-    origin: "",
-    destination: "",
-  });
 
   return (
     <Modal visible={isVisible} transparent animationType="fade">
@@ -55,7 +48,7 @@ export default function ChangeRouteDialog({
                     origin={item.origin}
                     destination={item.destination}
                     onPress={() => {
-                      setRoutes(item);
+                      onSelect(item);
                       setIsVisible(false);
                     }}
                   />
