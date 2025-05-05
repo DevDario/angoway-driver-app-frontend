@@ -22,6 +22,7 @@ export default function Manage() {
   const { useBusDetails } = useBus();
   const { isLoading, data } = useBusDetails;
   const { useUpdateBusDetails, error } = useBus();
+  const { useChangeBusRoute } = useBus();
 
   const { useQueryRoutes } = useBus();
   const [query, setQuery] = useState<string>("");
@@ -30,6 +31,7 @@ export default function Manage() {
   const [seats, setSeats] = useState(0);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [selectedRoute, setSelectedRoute] = useState<number | null>(null);
 
   useEffect(() => {
     if (data?.currentLoad !== undefined) {
@@ -63,7 +65,12 @@ export default function Manage() {
   }
 
   function handleSearch(query: string) {
-    setQuery(query); 
+    setQuery(query);
+  }
+
+  function handleRouteChange(routeId: number) {
+    setSelectedRoute(routeId);
+    useChangeBusRoute.mutate(routeId);
   }
 
   if (isLoading) {
@@ -173,6 +180,7 @@ export default function Manage() {
           suggestions={isError ? [] : suggestions}
           onSearch={handleSearch}
           value={query}
+          onSelect={(route) => handleRouteChange(route.id)} // Pass selected route ID
         />
       )}
 
