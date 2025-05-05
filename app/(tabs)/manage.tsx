@@ -9,6 +9,7 @@ import {
 import { useBus } from "../hooks/useBus";
 import Button from "../components/Button";
 import AlertModal from "../components/AlertModal";
+import ChangeRouteDialog from "../components/ChangeRouteDialog";
 import { useState, useEffect } from "react";
 import { updateBusDetails } from "../types/update-bus-details";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -22,7 +23,12 @@ export default function Manage() {
   const { isLoading, data } = useBusDetails;
   const { useUpdateBusDetails, error } = useBus();
 
+  const { useQueryRoutes } = useBus();
+  const [query, setQuery] = useState<string>("");
+  const { data: suggestions = [], isError } = useQueryRoutes(query);
+
   const [seats, setSeats] = useState(0);
+  const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -54,6 +60,10 @@ export default function Manage() {
     if (status === "Acidente") {
       setAlertMessage("Um alerta foi enviado para a central");
     }
+  }
+
+  function handleSearch(query: string) {
+    setQuery(query); 
   }
 
   if (isLoading) {
@@ -119,7 +129,10 @@ export default function Manage() {
         <View style={styles.separator}></View>
         <View style={styles.routeManagmentHeader}>
           <Text style={styles.routeLabel}>Mudar Rota</Text>
-          <TouchableOpacity style={styles.routeManagmentHeaderIconBox} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.routeManagmentHeaderIconBox}
+            onPress={() => setIsDialogVisible(true)}
+          >
             <FontAwesomeIcon
               icon={faArrowRightArrowLeft}
               size={20}
@@ -127,7 +140,10 @@ export default function Manage() {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.routeCardContent} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.routeCardContent}
+          onPress={() => setIsDialogVisible(true)}
+        >
           <Text style={styles.routeContentText}>{data?.route.origin + ""}</Text>
           <FontAwesomeIcon
             icon={faArrowRightLong}
@@ -150,6 +166,14 @@ export default function Manage() {
         <View>
           <AlertModal text={error} type={"error"} />
         </View>
+      )}
+
+      {isDialogVisible === true && (
+        <ChangeRouteDialog
+          suggestions={isError ? [] : suggestions}
+          onSearch={handleSearch}
+          value={query}
+        />
       )}
 
       <View style={styles.footer}>
