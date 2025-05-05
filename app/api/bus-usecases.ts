@@ -1,6 +1,6 @@
 import { busDetailsResponse } from "../types/bus-details-response";
 import { api } from "./axios-instance";
-import { getToken } from "../utils/secure-store";
+import { getToken, getUserId } from "../utils/secure-store";
 import { updateBusDetails } from "../types/update-bus-details";
 
 export const getBusDetailsUseCase = async () => {
@@ -45,12 +45,20 @@ export const queryRoutesUseCase = async (query: string) => {
 };
 
 export const changeBusRouteUseCase = async (routeId: number) => {
+  
   const token = await getToken();
-  const driverId = 9; // replace with id from the token
-  const response = await api.patch(`/bus/route/${driverId}/${routeId}`,{}, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const driverId = await getUserId();
+
+  if (!driverId) throw new Error("Driver ID not found in token");
+
+  const response = await api.patch(
+    `/bus/route/${driverId}/${routeId}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 };
