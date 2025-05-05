@@ -63,6 +63,5 @@ export const styles = StyleSheet.create({
     paddingBottom: 4,
     color: "#212121",
     textAlign: "left",
-    outline: "none",
   },
 });
