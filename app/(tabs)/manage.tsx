@@ -32,10 +32,15 @@ export default function Manage() {
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [selectedRoute, setSelectedRoute] = useState<number | null>(null);
+  const [busCapacity, setBusCapacity] = useState(0);
 
   useEffect(() => {
     if (data?.currentLoad !== undefined) {
       setSeats(data.currentLoad);
+    }
+
+    if (data?.capacity !== undefined) {
+      setBusCapacity(data.capacity);
     }
   }, [data]);
 
@@ -44,9 +49,11 @@ export default function Manage() {
   }
 
   function handleAddSeat() {
-    const updatedSeats = seats + 1;
-    setSeats(updatedSeats);
-    handleDataUpdate({ currentLoad: updatedSeats });
+    if (seats < busCapacity) {
+      const updatedSeats = seats + 1;
+      setSeats(updatedSeats);
+      handleDataUpdate({ currentLoad: updatedSeats });
+    }
   }
 
   function handleRemoveSeat() {
