@@ -35,8 +35,8 @@ export function useAuth() {
             router.replace("/dashboard")
             queryClient.invalidateQueries(["user"])
         },
-        onError: (error: AxiosError) => {
-            setAuthError(error.message)
+        onError: (req: any) => {
+            setAuthError(req.message)
         },
         onSettled: () => {
             setIsCheckingAuth(false)
