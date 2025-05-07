@@ -15,6 +15,17 @@ export default function Map() {
         showsMyLocationButton={true}
         showsUserLocation={true}
         showsTraffic={true}
+        pitchEnabled={true}
+        camera={{
+          center: {
+            latitude: -8.8390,
+            longitude: 13.2894,
+          },
+          zoom: 15,
+          heading: 30,
+          pitch: 120,
+          altitude: 20,
+        }}
       />
     </View>
   );
