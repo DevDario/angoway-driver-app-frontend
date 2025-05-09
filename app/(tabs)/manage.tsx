@@ -101,7 +101,7 @@ export default function Manage() {
         <Text style={styles.headerText}>Gerenciar</Text>
       </View>
       <View style={styles.seatsManagment}>
-        <Text style={styles.seatsLabel}>Lugares Vagos</Text>
+        <Text style={styles.seatsLabel}>Lugares Ocupados</Text>
         <View style={styles.seatsManagmentContainer}>
           <Text style={styles.seatsNumber}>{seats}</Text>
           <View style={styles.customButtonStyleContainer}>
@@ -109,11 +109,17 @@ export default function Manage() {
               buttonStyle={styles.customButtonStyle}
               text="Adicionar"
               onPress={handleAddSeat}
+              disabled={
+                data?.status === "Acidente" || data?.status === "Manutenção"
+              }
             />
             <Button
               buttonStyle={styles.customButtonStyle}
               text="Remover"
               onPress={handleRemoveSeat}
+              disabled={
+                data?.status === "Acidente" || data?.status === "Manutenção"
+              }
             />
           </View>
         </View>
