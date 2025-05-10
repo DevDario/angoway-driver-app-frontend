@@ -3,9 +3,12 @@ import { useEffect, useRef } from "react";
 import { broadcastDriverLocationUseCase } from "../api/location-usecases";
 import { socket } from "../api/socket-instance";
 import { DriverLocation } from "../types/driver-location";
+import { saveLastKnowBusLocation } from "../utils/secure-store";
 
-export function useDriverLocation(shouldTrack: boolean = true) {
-  const locationSubscription = useRef<Location.LocationSubscription | null>(null);
+export async function useDriverLocation(shouldTrack: boolean = true) {
+  const locationSubscription = useRef<Location.LocationSubscription | null>(
+    null
+  );
 
   useEffect(() => {
     if (!shouldTrack) return;
@@ -24,6 +27,7 @@ export function useDriverLocation(shouldTrack: boolean = true) {
             lat: loc.coords.latitude,
             lng: loc.coords.longitude,
           };
+          saveLastKnowBusLocation(driverLocation);
           broadcastDriverLocationUseCase(driverLocation);
         }
       );
