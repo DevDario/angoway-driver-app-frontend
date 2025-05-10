@@ -17,6 +17,7 @@ import {
   faArrowRightArrowLeft,
   faArrowRightLong,
 } from "@fortawesome/free-solid-svg-icons";
+import { useAlertNotifications } from "../hooks/useAlertNotifications";
 
 export default function Manage() {
   const { useBusDetails } = useBus();
@@ -67,6 +68,18 @@ export default function Manage() {
   function handleStatusUpdate(status: string) {
     handleDataUpdate({ status });
     if (status === "Acidente") {
+      useAlertNotifications({
+        type: "Acidente",
+        message: "Um autocarro teve um Acidente !",
+      });
+      setAlertMessage("Um alerta foi enviado para a central");
+    }
+
+    if (status === "Avaria Total") {
+      useAlertNotifications({
+        type: "Avaria Total",
+        message: "Um autocarro sofreu Avaria Total !",
+      });
       setAlertMessage("Um alerta foi enviado para a central");
     }
   }
