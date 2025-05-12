@@ -16,7 +16,7 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
     mode: "onChange",
     defaultValues: {
-      number: "",
+      phone: "",
       password: "",
     }
   })
@@ -47,7 +47,7 @@ export default function Login() {
             <Text style={styles.inputLabel}>Seu Número</Text>
             <Controller
               control={control}
-              name="number"
+              name="phone"
               render={({ field: { onChange, value } }) => (
                 <View>
                   <Input
@@ -56,8 +56,8 @@ export default function Login() {
                     onChangeText={onChange}
                     keyboardType={"phone-pad"}
                   />
-                  {errors.number && (
-                    <Text style={styles.error}>{errors.number.message}</Text>
+                  {errors.phone && (
+                    <Text style={styles.error}>{errors.phone.message}</Text>
                   )}
                 </View>
               )}
