@@ -4,9 +4,9 @@ import { loginSchema } from "../schemas/loginSchema"
 
 type LoginUseCaseProps = z.infer<typeof loginSchema>
 
-export const loginUseCase = async ({ number, password }: LoginUseCaseProps) => {
-    const response = await api.post("/auth/login", {
-        number,
+export const loginUseCase = async ({ phone, password }: LoginUseCaseProps) => {
+    const response = await api.post("/auth/driver/login", {
+        phone,
         password
     })
     return response.data
