@@ -18,6 +18,7 @@ import {
   faArrowRightLong,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAlertNotifications } from "../hooks/useAlertNotifications";
+import DecisionModal from "../components/DecisionModal";
 
 export default function Manage() {
   const { useBusDetails } = useBus();
@@ -31,6 +32,8 @@ export default function Manage() {
 
   const [seats, setSeats] = useState(0);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+  const [isDecisionModalVisible, setIsDecisionModalVisible] =
+    useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [selectedRoute, setSelectedRoute] = useState<number | null>(null);
   const [busCapacity, setBusCapacity] = useState(0);
@@ -67,6 +70,8 @@ export default function Manage() {
 
   function handleStatusUpdate(status: string) {
     handleDataUpdate({ status });
+
+    //apply strattegy design later
     if (status === "Acidente") {
       useAlertNotifications({
         type: "Acidente",
@@ -81,6 +86,16 @@ export default function Manage() {
         message: "Um autocarro sofreu Avaria Total !",
       });
       setAlertMessage("Um alerta foi enviado para a central");
+    }
+
+    if (status === "Manutenção") {
+      useAlertNotifications({
+        type: "Manutenção",
+        message: "Um autocarro teve que parar para fazer Manutenção !",
+      });
+      setAlertMessage("Um alerta foi enviado para a central");
+
+      setIsDecisionModalVisible(true);
     }
   }
 
@@ -123,7 +138,10 @@ export default function Manage() {
               text="Adicionar"
               onPress={handleAddSeat}
               disabled={
-                data?.status === "Acidente" || data?.status === "Manutenção"
+                data?.status === "Acidente" ||
+                data?.status === "Manutenção" ||
+                data?.status === "Avaria Total" ||
+                data?.status === "OFF_SERVICE"
               }
             />
             <Button
@@ -131,7 +149,10 @@ export default function Manage() {
               text="Remover"
               onPress={handleRemoveSeat}
               disabled={
-                data?.status === "Acidente" || data?.status === "Manutenção"
+                data?.status === "Acidente" ||
+                data?.status === "Manutenção" ||
+                data?.status === "Avaria Total" ||
+                data?.status === "OFF_SERVICE"
               }
             />
           </View>
@@ -145,16 +166,33 @@ export default function Manage() {
             buttonStyle={styles.customButtonStyle}
             text="Acidente"
             onPress={() => handleStatusUpdate("Acidente")}
+            disabled={
+              data?.status === "Acidente" ||
+              data?.status === "Avaria Total" ||
+              data?.status === "OFF_SERVICE" ||
+              data?.status === "Manutenção"
+            }
           />
           <Button
             buttonStyle={styles.customButtonStyle}
             text="Manutenção"
             onPress={() => handleStatusUpdate("Manutenção")}
+            disabled={
+              data?.status === "Acidente" ||
+              data?.status === "Avaria Total" ||
+              data?.status === "OFF_SERVICE" ||
+              data?.status === "Manutenção"
+            }
           />
           <Button
             buttonStyle={styles.customButtonStyle}
             text="Avaria Total"
             onPress={() => handleStatusUpdate("Avaria Total")}
+            disabled={
+              data?.status === "Acidente" ||
+              data?.status === "Avaria Total" ||
+              data?.status === "OFF_SERVICE"
+            }
           />
         </View>
       </View>
@@ -165,6 +203,12 @@ export default function Manage() {
           <TouchableOpacity
             style={styles.routeManagmentHeaderIconBox}
             onPress={() => setIsDialogVisible(true)}
+            disabled={
+              data?.status === "Acidente" ||
+              data?.status === "Manutenção" ||
+              data?.status === "Avaria Total" ||
+              data?.status === "OFF_SERVICE"
+            }
           >
             <FontAwesomeIcon
               icon={faArrowRightArrowLeft}
@@ -176,6 +220,12 @@ export default function Manage() {
         <TouchableOpacity
           style={styles.routeCardContent}
           onPress={() => setIsDialogVisible(true)}
+          disabled={
+            data?.status === "Acidente" ||
+            data?.status === "Manutenção" ||
+            data?.status === "Avaria Total" ||
+            data?.status === "OFF_SERVICE"
+          }
         >
           <Text style={styles.routeContentText}>{data?.route.origin + ""}</Text>
           <FontAwesomeIcon
@@ -206,7 +256,18 @@ export default function Manage() {
           suggestions={isError ? [] : suggestions}
           onSearch={handleSearch}
           value={query}
-          onSelect={(route) => handleRouteChange(route.id)} // Pass selected route ID
+          onSelect={(route) => handleRouteChange(route.id)}
+        />
+      )}
+
+      {isDecisionModalVisible === true && (
+        <DecisionModal
+          message="A situação foi/pode ser resolvida ?"
+          cancelText="Não"
+          confirmText="Sim"
+          key={"maintnance-status-decision-modal"}
+          onConfirm={() => handleStatusUpdate("IN_TRANSIT")}
+          onCancel={() => handleStatusUpdate("OFF_SERVICE")}
         />
       )}
 
@@ -218,17 +279,30 @@ export default function Manage() {
               ? "Iniciar Viagem"
               : data?.status === "Acidente"
               ? "Viagem Cancelada"
+              : data?.status === "Manutenção"
+              ? "Voltar à Viagem"
+              : data?.status === "Avaria Total"
+              ? "Viagem Cancelada"
               : "Encerrar Viagem"
           }
           onPress={() => {
-            if (data?.status !== "Acidente") {
+            if (
+              data?.status !== "Acidente" &&
+              data?.status !== "Avaria Total"
+            ) {
               handleDataUpdate({
                 status:
-                  data?.status === "OFF_SERVICE" ? "IN_TRANSIT" : "OFF_SERVICE",
+                  data?.status === "OFF_SERVICE"
+                    ? "IN_TRANSIT"
+                    : data?.status === "Manutenção"
+                    ? "IN_TRANSIT"
+                    : "OFF_SERVICE",
               });
             }
           }}
-          disabled={data?.status === "Acidente"}
+          disabled={
+            data?.status === "Acidente" || data?.status === "Avaria Total"
+          }
         />
       </View>
     </ScrollView>
