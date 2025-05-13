@@ -13,14 +13,14 @@ export async function useDriverLocation(shouldTrack: boolean = true) {
   useEffect(() => {
     if (!shouldTrack) return;
 
-    socket.connect();
+    if(!socket.connected) socket.connect()
 
     const startWatching = async () => {
       locationSubscription.current = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.Highest,
-          timeInterval: 5000, // every 5 seconds
-          distanceInterval: 10, // or every 10 meters
+          timeInterval: 5000,
+          distanceInterval: 10,
         },
         (loc) => {
           const driverLocation:DriverLocation = {
