@@ -20,7 +20,7 @@ export default function Index() {
   const { useBusDetails } = useBus();
   const { data, isLoading } = useBusDetails;
 
-  const [permissionGranted, setPermissionGranted] = useState(false);
+  const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
 
   useEffect(() => {
     const requestPermissionForLocation = async () => {
@@ -43,9 +43,7 @@ export default function Index() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0C6BFF" />
-        <Text style={styles.permissionText}>
-          Aguardando Permissão...
-        </Text>
+        <Text style={styles.permissionText}>Aguardando Permissão...</Text>
       </View>
     );
   }
