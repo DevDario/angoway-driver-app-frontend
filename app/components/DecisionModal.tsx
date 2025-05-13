@@ -41,7 +41,7 @@ export default function DecisionModal({
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => {
-                onCancel;
+                onCancel();
                 setIsVisible(false);
               }}
             >
@@ -50,7 +50,7 @@ export default function DecisionModal({
             <TouchableOpacity
               style={styles.confirmButton}
               onPress={() => {
-                onConfirm;
+                onConfirm();
                 setIsVisible(false);
               }}
             >
