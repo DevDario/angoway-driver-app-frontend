@@ -16,6 +16,7 @@ export default function Map() {
         showsUserLocation={true}
         showsTraffic={true}
         pitchEnabled={true}
+        followsUserLocation={true}
         camera={{
           center: {
             latitude: -8.8390,
