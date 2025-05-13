@@ -5,7 +5,7 @@ import { socket } from "../api/socket-instance";
 import { DriverLocation } from "../types/driver-location";
 import { saveLastKnowBusLocation } from "../utils/secure-store";
 
-export async function useDriverLocation(shouldTrack: boolean = true) {
+export async function useDriverLocation(shouldTrack: boolean) {
   const locationSubscription = useRef<Location.LocationSubscription | null>(
     null
   );
