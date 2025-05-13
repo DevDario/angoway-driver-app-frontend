@@ -11,9 +11,9 @@ export async function useDriverLocation(shouldTrack: boolean) {
   );
 
   useEffect(() => {
-    if (!shouldTrack) return;
+    if (shouldTrack !== true) return;
 
-    if(!socket.connected) socket.connect()
+    if (!socket.connected) socket.connect();
 
     const startWatching = async () => {
       locationSubscription.current = await Location.watchPositionAsync(
@@ -23,7 +23,7 @@ export async function useDriverLocation(shouldTrack: boolean) {
           distanceInterval: 10,
         },
         (loc) => {
-          const driverLocation:DriverLocation = {
+          const driverLocation: DriverLocation = {
             lat: loc.coords.latitude,
             lng: loc.coords.longitude,
           };
