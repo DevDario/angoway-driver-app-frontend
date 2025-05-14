@@ -47,6 +47,13 @@ export async function getUserId(): Promise<number | null> {
   return decoded?.sub || null;
 }
 
+export async function getBusId(): Promise<number | null> {
+  const token = await getToken();
+  if (!token) return null;
+  const decoded = decodeToken(token);
+  return decoded?.busId || null;
+}
+
 export async function saveLastKnowBusLocation(loc: {
   lat: number;
   lng: number;
