@@ -1,6 +1,6 @@
 import { busDetailsResponse } from "../types/bus-details-response";
 import { api } from "./axios-instance";
-import { getToken, getUserId } from "../utils/secure-store";
+import { getBusId, getToken, getUserId } from "../utils/secure-store";
 import { updateBusDetails } from "../types/update-bus-details";
 
 export const getBusDetailsUseCase = async () => {
@@ -19,7 +19,7 @@ export const updateBusDetailsUseCase = async ({
   currentLoad,
 }: updateBusDetails) => {
   const token = await getToken();
-  const busId = 1; // replace with id from the token
+  const busId = await getBusId();
   const response = await api.patch(
     `/bus/dashboard-details/${busId}`,
     {
