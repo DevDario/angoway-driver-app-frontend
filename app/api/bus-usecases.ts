@@ -5,7 +5,8 @@ import { updateBusDetails } from "../types/update-bus-details";
 
 export const getBusDetailsUseCase = async () => {
   const token = await getToken();
-  const response = await api.get("/bus/dashboard-details", {
+  const driverId = await getUserId()
+  const response = await api.get(`/bus/dashboard-details/${driverId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
