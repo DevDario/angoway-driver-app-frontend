@@ -72,10 +72,10 @@ export default function Manage() {
     handleDataUpdate({ status });
 
     //apply strattegy design later
-    if (status === "Acidente") {
+    if (status === "ACCIDENT") {
       useAlertNotifications({
-        type: "Acidente",
-        message: "Um autocarro teve um Acidente !",
+        type: "ACCIDENT",
+        message: "Um autocarro teve um ACCIDENT !",
       });
       setAlertMessage("Um alerta foi enviado para a central");
     }
@@ -138,7 +138,7 @@ export default function Manage() {
               text="Adicionar"
               onPress={handleAddSeat}
               disabled={
-                data?.status === "Acidente" ||
+                data?.status === "ACCIDENT" ||
                 data?.status === "Manutenção" ||
                 data?.status === "Avaria Total" ||
                 data?.status === "OFF_SERVICE"
@@ -149,7 +149,7 @@ export default function Manage() {
               text="Remover"
               onPress={handleRemoveSeat}
               disabled={
-                data?.status === "Acidente" ||
+                data?.status === "ACCIDENT" ||
                 data?.status === "Manutenção" ||
                 data?.status === "Avaria Total" ||
                 data?.status === "OFF_SERVICE"
@@ -164,10 +164,10 @@ export default function Manage() {
         <View style={styles.statusOptions}>
           <Button
             buttonStyle={styles.customButtonStyle}
-            text="Acidente"
-            onPress={() => handleStatusUpdate("Acidente")}
+            text="ACCIDENT"
+            onPress={() => handleStatusUpdate("ACCIDENT")}
             disabled={
-              data?.status === "Acidente" ||
+              data?.status === "ACCIDENT" ||
               data?.status === "Avaria Total" ||
               data?.status === "OFF_SERVICE" ||
               data?.status === "Manutenção"
@@ -178,7 +178,7 @@ export default function Manage() {
             text="Manutenção"
             onPress={() => handleStatusUpdate("Manutenção")}
             disabled={
-              data?.status === "Acidente" ||
+              data?.status === "ACCIDENT" ||
               data?.status === "Avaria Total" ||
               data?.status === "OFF_SERVICE" ||
               data?.status === "Manutenção"
@@ -189,7 +189,7 @@ export default function Manage() {
             text="Avaria Total"
             onPress={() => handleStatusUpdate("Avaria Total")}
             disabled={
-              data?.status === "Acidente" ||
+              data?.status === "ACCIDENT" ||
               data?.status === "Avaria Total" ||
               data?.status === "OFF_SERVICE"
             }
@@ -204,7 +204,7 @@ export default function Manage() {
             style={styles.routeManagmentHeaderIconBox}
             onPress={() => setIsDialogVisible(true)}
             disabled={
-              data?.status === "Acidente" ||
+              data?.status === "ACCIDENT" ||
               data?.status === "Manutenção" ||
               data?.status === "Avaria Total" ||
               data?.status === "OFF_SERVICE"
@@ -221,7 +221,7 @@ export default function Manage() {
           style={styles.routeCardContent}
           onPress={() => setIsDialogVisible(true)}
           disabled={
-            data?.status === "Acidente" ||
+            data?.status === "ACCIDENT" ||
             data?.status === "Manutenção" ||
             data?.status === "Avaria Total" ||
             data?.status === "OFF_SERVICE"
@@ -277,7 +277,7 @@ export default function Manage() {
           text={
             data?.status === "OFF_SERVICE"
               ? "Iniciar Viagem"
-              : data?.status === "Acidente"
+              : data?.status === "ACCIDENT"
               ? "Viagem Cancelada"
               : data?.status === "Manutenção"
               ? "Voltar à Viagem"
@@ -287,7 +287,7 @@ export default function Manage() {
           }
           onPress={() => {
             if (
-              data?.status !== "Acidente" &&
+              data?.status !== "ACCIDENT" &&
               data?.status !== "Avaria Total"
             ) {
               handleDataUpdate({
@@ -301,7 +301,7 @@ export default function Manage() {
             }
           }}
           disabled={
-            data?.status === "Acidente" || data?.status === "Avaria Total"
+            data?.status === "ACCIDENT" || data?.status === "Avaria Total"
           }
         />
       </View>
