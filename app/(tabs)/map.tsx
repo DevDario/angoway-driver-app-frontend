@@ -24,7 +24,7 @@ export default function Map() {
           },
           zoom: 15,
           heading: 30,
-          pitch: 120,
+          pitch: 90,
           altitude: 20,
         }}
       />
