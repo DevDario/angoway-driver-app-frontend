@@ -131,6 +131,16 @@ export default function Index() {
               longitudeDelta: 0.0421,
             }}
             showsTraffic={true}
+            camera={{
+              center: {
+                latitude: -8.8390,
+                longitude: 13.2894,
+              },
+              zoom: 15,
+              heading: 30,
+              pitch: 90,
+              altitude: 20,
+            }}
           />
         </View>
       </View>
