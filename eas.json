@@ -41,6 +41,14 @@
         "ENVIRONMENT": "production",
         "API_URL": "https://angoway_server.onrender.com"
       }
+    },
+    "development-simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "environment": "development"
     }
   },
   "submit": {
