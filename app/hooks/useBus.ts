@@ -11,62 +11,59 @@ export function useBus() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const useBusDetails = useQuery({
+  const busDetails = useQuery({
     queryKey: ["busDetails"],
     queryFn: getBusDetailsUseCase,
     staleTime: 1000 * 60 * 5,
-    cacheTime: 1000 * 60 * 10,
+    gcTime: 1000 * 60 * 10,
   });
 
-  const useUpdateBusDetails = useMutation({
+  const updateBusDetails = useMutation({
     mutationFn: updateBusDetailsUseCase,
-    onMutate: () => {
+    onMutate: async () => {
       setError(null);
       setSuccess(null);
     },
-    onSuccess: async (res: any) => {
+    onSuccess: async (res: any, _variables, _context) => {
       setError(null);
       setSuccess(res.message);
     },
-    onError: (res: any) => {
+    onError: (res: any, _variables, _context) => {
       setError(res.message);
       setSuccess(null);
     },
   });
 
-  const useQueryRoutes = (query: string) =>
+  const queryRoutes = (query: string) =>
     useQuery({
       queryKey: ["routes", query],
       queryFn: () => queryRoutesUseCase(query),
       staleTime: 1000 * 60 * 5,
-      cacheTime: 1000 * 60 * 10,
+      gcTime: 1000 * 60 * 10,
       enabled: query.trim().length > 0,
-      onError: (res: any) => {
-        setError(res.message);
-      },
     });
 
-  const useChangeBusRoute = useMutation({
+  const changeBusRoute = useMutation({
     mutationFn: changeBusRouteUseCase,
-    onMutate: () => {
+    onMutate: async () => {
       setError(null);
       setSuccess(null);
     },
-    onSuccess: async (res: any) => {
+    onSuccess: async (res: any, _variables, _context) => {
       setError(null);
       setSuccess(res.message);
     },
-    onError: (res: any) => {
+    onError: (res: any, _variables, _context) => {
       setError(res.message);
       setSuccess(null);
     },
   });
 
   return {
-    useBusDetails,
-    useUpdateBusDetails,
-    useQueryRoutes,
-    useChangeBusRoute,
+    busDetails,
+    updateBusDetails,
+    queryRoutes,
+    changeBusRoute,
     error,
     success,
   };

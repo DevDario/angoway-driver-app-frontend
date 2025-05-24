@@ -20,11 +20,11 @@ export default function Login() {
       password: "",
     }
   })
-  const { useLogin, isCheckingAuth, authError } = useAuth()
+  const { login, isCheckingAuth, authError } = useAuth()
   type LoginFormData = z.infer<typeof loginSchema>
 
   function handleLogin(data: LoginFormData) {
-    useLogin.mutate(data)
+    login.mutate(data)
   }
 
   return (

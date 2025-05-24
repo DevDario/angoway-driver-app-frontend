@@ -21,14 +21,14 @@ import { useAlertNotifications } from "../hooks/useAlertNotifications";
 import DecisionModal from "../components/DecisionModal";
 
 export default function Manage() {
-  const { useBusDetails } = useBus();
-  const { isLoading, data } = useBusDetails;
-  const { useUpdateBusDetails, error } = useBus();
-  const { useChangeBusRoute } = useBus();
+  const { busDetails } = useBus();
+  const { isLoading, data } = busDetails;
+  const { updateBusDetails, error } = useBus();
+  const { changeBusRoute } = useBus();
 
-  const { useQueryRoutes } = useBus();
+  const { queryRoutes } = useBus();
   const [query, setQuery] = useState<string>("");
-  const { data: suggestions = [], isError } = useQueryRoutes(query);
+  const { data: suggestions = [], isError } = queryRoutes(query);
 
   const [seats, setSeats] = useState(0);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -49,7 +49,7 @@ export default function Manage() {
   }, [data]);
 
   function handleDataUpdate(data: updateBusDetails) {
-    useUpdateBusDetails.mutate(data);
+    updateBusDetails.mutate(data);
   }
 
   function handleAddSeat() {
@@ -105,7 +105,7 @@ export default function Manage() {
 
   function handleRouteChange(routeId: number) {
     setSelectedRoute(routeId);
-    useChangeBusRoute.mutate(routeId);
+    changeBusRoute.mutate(routeId);
   }
 
   if (isLoading) {

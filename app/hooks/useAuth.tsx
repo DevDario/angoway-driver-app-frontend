@@ -7,54 +7,52 @@ import { LoginResponse } from "../types/login-response";
 import { AxiosError } from "axios";
 
 export function useAuth() {
-    const queryClient = useQueryClient()
-    const router = useRouter()
-    const [authToken, setAuthToken] = useState<string | null>(null)
-    const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
-    const [authError, setAuthError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
+  const [authError, setAuthError] = useState<string | null>(null);
 
-
-    useEffect(() => {
-        async function checkToken() {
-            const token: string | null | undefined = await getToken();
-            setAuthToken(token || null);
-            setIsCheckingAuth(false)
-        }
-        checkToken()
-    }, []);
-
-    const useLogin = useMutation({
-        mutationFn: loginUseCase,
-        onMutate: () => {
-            setIsCheckingAuth(true)
-            setAuthError(null)
-        },
-        onSuccess: async (data: LoginResponse) => {
-            saveToken(data.access_token)
-            setAuthToken(data.access_token)
-            router.replace("/dashboard")
-            queryClient.invalidateQueries(["user"])
-        },
-        onError: (req: any) => {
-            setAuthError(req.message)
-        },
-        onSettled: () => {
-            setIsCheckingAuth(false)
-        },
-    })
-
-    const logout = async () => {
-        removeToken();
-        router.replace("./auth/login")
-        queryClient.clear();
-        }
-
-    return {
-        useLogin,
-        logout,
-        authToken,
-        isCheckingAuth,
-        authError
+  useEffect(() => {
+    async function checkToken() {
+      const token: string | null | undefined = await getToken();
+      setAuthToken(token || null);
+      setIsCheckingAuth(false);
     }
+    checkToken();
+  }, []);
 
+  const login = useMutation({
+    mutationFn: loginUseCase,
+    onMutate: async () => {
+      setIsCheckingAuth(true);
+      setAuthError(null);
+    },
+    onSuccess: async (data: LoginResponse, _variables, _context) => {
+      await saveToken(data.access_token);
+      setAuthToken(data.access_token);
+      router.replace("/dashboard");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
+    onError: (error: any, _variables, _context) => {
+      setAuthError(error.message);
+    },
+    onSettled: () => {
+      setIsCheckingAuth(false);
+    },
+  });
+
+  const logout = async () => {
+    await removeToken();
+    router.replace("./auth/login");
+    queryClient.clear();
+  };
+
+  return {
+    login,
+    logout,
+    authToken,
+    isCheckingAuth,
+    authError,
+  };
 }

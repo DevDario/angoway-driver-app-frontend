@@ -17,8 +17,8 @@ import { useDriverLocation } from "../hooks/useDriverLocation";
 import AlertModal from "../components/AlertModal";
 
 export default function Index() {
-  const { useBusDetails } = useBus();
-  const { data, isLoading } = useBusDetails;
+  const { busDetails } = useBus();
+  const { data, isLoading } = busDetails;
 
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
 
