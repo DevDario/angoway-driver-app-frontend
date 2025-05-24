@@ -8,14 +8,14 @@
       "developmentClient": true,
       "distribution": "internal",
       "android": {
-        "buildType": "apk",
-        "gradleCommand": ":app:assembleDebug"
+        "buildType": "apk"
       },
       "ios": {
         "simulator": true
       },
       "env": {
-        "ENVIRONMENT": "development"
+        "ENVIRONMENT": "development",
+        "API_URL": "http://localhost:3000"
       }
     },
     "preview": {
@@ -25,7 +25,8 @@
         "buildType": "apk"
       },
       "env": {
-        "ENVIRONMENT": "preview"
+        "ENVIRONMENT": "preview",
+        "API_URL": "https://angoway_server.onrender.com"
       }
     },
     "production": {
@@ -37,7 +38,8 @@
         "simulator": false
       },
       "env": {
-        "ENVIRONMENT": "production"
+        "ENVIRONMENT": "production",
+        "API_URL": "https://angoway_server.onrender.com"
       }
     }
   },
