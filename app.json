@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Angoway Driver",
-    "slug": "Angoway-driver",
+    "slug": "angoway-driver-app-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
