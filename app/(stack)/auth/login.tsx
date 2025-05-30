@@ -1,143 +1,233 @@
 import { useForm, Controller } from "react-hook-form";
-import { ScrollView, Text, StyleSheet, View, ActivityIndicator } from "react-native";
-import Input from "@/app/components/Input"
+import {
+  ScrollView,
+  Text,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Modal,
+  Platform,
+} from "react-native";
+import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
-import {zodResolver} from "@hookform/resolvers/zod"
-import { useRouter } from "expo-router";
-import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/app/schemas/loginSchema";
 import { useAuth } from "@/app/hooks/useAuth";
-import {z} from "zod"
+import { z } from "zod";
 import AlertModal from "@/app/components/AlertModal";
+import { faQrcode } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
+import { Camera, CameraView } from "expo-camera";
 
 export default function Login() {
-  const router = useRouter();
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    trigger,
+  } = useForm({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
     defaultValues: {
       phone: "",
       password: "",
-    }
-  })
-  const { login, isCheckingAuth, authError } = useAuth()
-  type LoginFormData = z.infer<typeof loginSchema>
+    },
+  });
+  const { login, isCheckingAuth, authError } = useAuth();
+  type LoginFormData = z.infer<typeof loginSchema>;
+
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [isScannerVisible, setIsScannerVisible] = useState(false);
+  const [scanned, setScanned] = useState(false);
 
   function handleLogin(data: LoginFormData) {
-    login.mutate(data)
+    login.mutate(data);
+  }
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  async function handleQRCodeScanned({ data }: { data: string }) {
+    setScanned(true);
+    setIsScannerVisible(false);
+
+    try {
+      const parsed = JSON.parse(data);
+
+      if (!parsed.phone || !parsed.password) {
+        return <AlertModal text="QrCode inválido. Não foi possível obter as credenciais" type="error" />;
+      }
+
+      setValue("phone", parsed.phone);
+      setValue("password", parsed.password);
+
+      const isValid = await trigger(["phone", "password"]);
+
+      if (isValid) {
+        handleSubmit(handleLogin)();
+      } else {
+        return (
+          <AlertModal text="QR Code contém dados inválidos." type="error" />
+        );
+      }
+    } catch (err) {
+      return (
+        <AlertModal text={"QR Code inválido ou mal formatado"} type={"error"} />
+      );
+    }
   }
 
   return (
-    <ScrollView
-      style={[styles.container]}
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps="handled"
-    >
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Iniciar Sessão</Text>
-        <Text style={styles.headerDescription}>
-          Proporcione uma viagem segura para os nossos cidadãos e turistas.
-        </Text>
-      </View>
+    <>
+      <ScrollView
+        style={[styles.container]}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Iniciar Sessão</Text>
+          <Text style={styles.headerDescription}>
+            Proporcione uma viagem segura para os nossos cidadãos e turistas.
+          </Text>
+        </View>
 
-      <View style={styles.content}>
-        <View style={styles.inputContainer}>
-          <View style={styles.phoneInputContainer}>
-            <Text style={styles.inputLabel}>Seu Número</Text>
-            <Controller
-              control={control}
-              name="phone"
-              render={({ field: { onChange, value } }) => (
-                <View>
-                  <Input
-                    placeholder={"Digite o seu número"}
-                    value={value}
-                    onChangeText={onChange}
-                    keyboardType={"phone-pad"}
-                  />
-                  {errors.phone && (
-                    <Text style={styles.error}>{errors.phone.message}</Text>
-                  )}
-                </View>
-              )}
+        <View style={styles.content}>
+          <View style={styles.inputContainer}>
+            <View style={styles.phoneInputContainer}>
+              <Text style={styles.inputLabel}>Seu Número</Text>
+              <Controller
+                control={control}
+                name="phone"
+                render={({ field: { onChange, value } }) => (
+                  <View>
+                    <Input
+                      placeholder={"Digite o seu número"}
+                      value={value}
+                      onChangeText={onChange}
+                      keyboardType={"phone-pad"}
+                    />
+                    {errors.phone && (
+                      <Text style={styles.error}>{errors.phone.message}</Text>
+                    )}
+                  </View>
+                )}
+              />
+            </View>
+
+            <View style={styles.passwordInputContainer}>
+              <Text style={styles.inputLabel}>Senha</Text>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, value } }) => (
+                  <View>
+                    <Input
+                      placeholder="Digite sua senha"
+                      value={value}
+                      onChangeText={onChange}
+                      keyboardType={"default"}
+                      secureTextEntry={true}
+                    />
+                    {errors.password && (
+                      <Text style={styles.error}>
+                        {errors.password.message}
+                      </Text>
+                    )}
+                  </View>
+                )}
+              />
+            </View>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              text={isCheckingAuth ? "Entrando..." : "Entrar"}
+              buttonStyle={styles.loginButton}
+              textStyle={{ color: "#121212" }}
+              onPress={handleSubmit(handleLogin)}
+              disabled={isCheckingAuth}
             />
           </View>
 
-          <View style={styles.passwordInputContainer}>
-            <Text style={styles.inputLabel}>Senha</Text>
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, value } }) => (
-                <View>
-                  <Input
-                    placeholder="Digite sua senha"
-                    value={value}
-                    onChangeText={onChange}
-                    keyboardType={"default"}
-                  />
-                  {errors.password && (
-                    <Text style={styles.error}>{errors.password.message}</Text>
-                  )}
-                </View>
-              )}
+          {authError !== null && (
+            <View>
+              <AlertModal text={authError} type={"error"} />
+            </View>
+          )}
+
+          {isCheckingAuth && (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                paddingVertical: 15,
+              }}
+            >
+              <ActivityIndicator size="large" color="#007bff" />
+            </View>
+          )}
+
+          <View style={styles.footerButtons}>
+            <Text>Ou</Text>
+
+            <Button
+              text={"Scanear Qr Code"}
+              icon={faQrcode}
+              buttonStyle={styles.optionLoginButton}
+              textStyle={{ color: "#0C6BFF", fontWeight: "bold" }}
+              onPress={() => {
+                setScanned(false);
+                setIsScannerVisible(true);
+              }}
             />
           </View>
         </View>
+      </ScrollView>
 
-        <View style={styles.buttonContainer}>
-          <Button
-            text={isCheckingAuth ? "Entrando..." : "Entrar"}
-            buttonStyle={styles.loginButton}
-            textStyle={{ color: "#121212" }}
-            onPress={handleSubmit(handleLogin)}
-            disabled={isCheckingAuth}
-          />
-        </View>
+      {isScannerVisible && Platform.OS === "web" && (
+        <AlertModal
+          text={`Método não suportado \nno navegador.`}
+          type="error"
+        />
+      )}
 
-        {authError !== null && (
-          <View>
-            <AlertModal text={authError} type={"error"} />
+      {isScannerVisible && Platform.OS !== "web" && (
+        <Modal visible={isScannerVisible} animationType="slide">
+          <View style={{ flex: 1 }}>
+            <CameraView
+              style={{ flex: 1 }}
+              onBarcodeScanned={scanned ? undefined : handleQRCodeScanned}
+              barcodeScannerSettings={{
+                barcodeTypes: ["qr", "pdf417", "code128"],
+              }}
+            />
+            <View
+              style={{
+                position: "absolute",
+                bottom: 30,
+                left: 0,
+                right: 0,
+                alignItems: "center",
+              }}
+            >
+              <Button
+                text="Cancelar"
+                onPress={() => setIsScannerVisible(false)}
+                buttonStyle={{ width: 200 }}
+              />
+            </View>
           </View>
-        )}
-
-        {isCheckingAuth && (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              paddingVertical: 15,
-            }}
-          >
-            <ActivityIndicator size="large" color="#007bff" />
-          </View>
-        )}
-
-        <View style={styles.footerButtons}>
-          <Text>Ou</Text>
-
-          <Button
-            text={"Entrar com Facebook"}
-            icon={faFacebook}
-            buttonStyle={styles.optionLoginButton}
-            textStyle={{ color: "#121212" }}
-            onPress={() => router.push("https://facebook.com/oauth")}
-          />
-
-          <Button
-            text={"Entrar com Google"}
-            icon={faGoogle}
-            buttonStyle={styles.optionLoginButton}
-            textStyle={{ color: "#121212" }}
-            onPress={() => router.push("https://google.com/oauth")}
-          />
-        </View>
-      </View>
-    </ScrollView>
+        </Modal>
+      )}
+    </>
   );
-
 }
 
 const styles = StyleSheet.create({
@@ -171,7 +261,6 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 35,
     paddingLeft: 30,
-    alignItems: "flex-start",
   },
   inputLabel: {
     fontSize: 15,
@@ -181,13 +270,11 @@ const styles = StyleSheet.create({
     width: "90%",
     gap: 10,
     justifyContent: "flex-start",
-    alignItems: "flex-start",
   },
   passwordInputContainer: {
     width: "90%",
     gap: 10,
     justifyContent: "flex-start",
-    alignItems: "flex-start",
   },
   buttonContainer: {
     width: "100%",
@@ -210,12 +297,14 @@ const styles = StyleSheet.create({
   },
   optionLoginButton: {
     width: 300,
+    backgroundColor: "#D9E8FF",
+    borderColor: "#D9E8FF",
   },
   error: {
-    color: "#D9534F", // A softer red color
-    fontSize: 13
+    color: "#D9534F",
+    fontSize: 13,
   },
   loader: {
-    marginTop: 10
+    marginTop: 10,
   },
 });
