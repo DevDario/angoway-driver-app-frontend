@@ -14,7 +14,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/angoway-adaptive-icon.png",
-        "backgroundColor": "#fcfcfb"
+        "backgroundColor": "#E8F1FF"
       },
       "package": "com.dariosilva.angowaydriverappfrontend"
     },
@@ -31,7 +31,13 @@
           "image": "./assets/images/splash-screen.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#E8F1FF"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permitir Angoway acessar a sua câmera para scanear o Código Qr"
         }
       ]
     ],
