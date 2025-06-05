@@ -39,7 +39,8 @@
         {
           "cameraPermission": "Permitir Angoway acessar a sua câmera para scanear o Código Qr"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
