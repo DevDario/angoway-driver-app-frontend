@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(189, 189, 189, 0.71)",
-    filter: "blur(30)",
   },
   modalContent: {
     backgroundColor: "#FBFCFF",
