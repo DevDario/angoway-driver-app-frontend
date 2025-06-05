@@ -40,6 +40,8 @@ export default function Login() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [isScannerVisible, setIsScannerVisible] = useState(false);
   const [scanned, setScanned] = useState(false);
+  const [qrcodeFormatError, setQrCodeFormatError] = useState(false);
+  const [inputValidationError, setInputValidationError] = useState(false);
 
   function handleLogin(data: LoginFormData) {
     login.mutate(data);
@@ -60,7 +62,7 @@ export default function Login() {
       const parsed = JSON.parse(data);
 
       if (!parsed.phone || !parsed.password) {
-        return <AlertModal text="QrCode inválido. Não foi possível obter as credenciais" type="error" />;
+        setQrCodeFormatError(true);
       }
 
       setValue("phone", parsed.phone);
@@ -71,9 +73,7 @@ export default function Login() {
       if (isValid) {
         handleSubmit(handleLogin)();
       } else {
-        return (
-          <AlertModal text="QR Code contém dados inválidos." type="error" />
-        );
+        return setInputValidationError(true);
       }
     } catch (err) {
       return (
@@ -159,6 +159,17 @@ export default function Login() {
             <View>
               <AlertModal text={authError} type={"error"} />
             </View>
+          )}
+
+          {qrcodeFormatError && (
+            <AlertModal
+              text="QrCode inválido. Não foi possível obter as credenciais"
+              type="error"
+            />
+          )}
+
+          {inputValidationError && (
+            <AlertModal text="QR Code contém dados inválidos." type="error" />
           )}
 
           {isCheckingAuth && (
