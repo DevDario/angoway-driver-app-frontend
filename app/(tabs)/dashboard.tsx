@@ -9,7 +9,7 @@ import {
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import InfoCard from "../components/InfoCard";
-import MapView from "react-native-maps";
+import MapView, { Marker, Polyline } from "react-native-maps";
 import { useBus } from "../hooks/useBus";
 import { Stop } from "../types/stops";
 import { requestLocationPermission } from "../utils/request-location-permission";
@@ -30,7 +30,7 @@ export default function Index() {
           text="Para usar o aplicativo, você precisa permitir o acesso à localização."
           type="error"
           key={"location-permission"}
-        />
+        />;
       }
       setPermissionGranted(granted);
     };
@@ -121,19 +121,18 @@ export default function Index() {
       <View style={styles.destinationContainer}>
         <Text style={styles.destinationLabel}>Destino</Text>
         <View style={styles.destinationContent}>
-          {/* draw a route from the origin point to the destination */}
           <MapView
             style={styles.map}
             initialRegion={{
-              latitude:  -8.83682,
-              longitude: 13.2443,
+              latitude: Number(data?.route.originLat),
+              longitude: Number(data?.route.originLng),
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
             showsTraffic={true}
             camera={{
               center: {
-                latitude: -8.8390,
+                latitude: -8.839,
                 longitude: 13.2894,
               },
               zoom: 15,
@@ -141,7 +140,22 @@ export default function Index() {
               pitch: 90,
               altitude: 20,
             }}
-          />
+          >
+            <Polyline
+              coordinates={[
+                {
+                  latitude: Number(data?.route.originLat),
+                  longitude: Number(data?.route.originLng),
+                },
+                {
+                  latitude: Number(data?.route.destinationLat),
+                  longitude: Number(data?.route.destinationLng),
+                },
+              ]}
+              strokeColor="#0C6BFF"
+              strokeWidth={4}
+            />
+          </MapView>
         </View>
       </View>
     </ScrollView>
