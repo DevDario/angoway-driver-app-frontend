@@ -36,7 +36,7 @@ export default function ChangeRouteDialog({
               key={"search-route"}
             />
           </View>
-          <ScrollView style={styles.suggestionsView} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+          <ScrollView style={styles.suggestionsView} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} horizontal={true}>
             {suggestions.length === 0 ? (
               <Text style={styles.noResultsText}>Não Encontrada</Text>
             ) : (
