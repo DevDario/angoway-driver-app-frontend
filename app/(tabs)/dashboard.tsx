@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: "bold",
     color: "#0C6BFF",
+    fontFamily:"Inter-Bold"
   },
   routeCard: {
     width: "100%",
@@ -193,6 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 300,
     color: "#FCFCFB",
+    fontFamily:"Inter-Medium"
   },
   routeCardContent: {
     flexDirection: "row",
@@ -205,6 +207,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FCFCFB",
     alignItems: "center",
+    fontFamily:"Inter-Bold"
   },
   routeStatusContainer: {
     width: 115,
@@ -225,6 +228,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     color: "#FCFCFB",
+    fontFamily:"Inter-Bold"
   },
   infoContainer: {
     flexDirection: "row",
@@ -247,6 +251,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#0C6BFF",
     paddingVertical: 15,
+    fontFamily:"Inter-Bold"
   },
   destinationContainer: {
     width: "100%",
@@ -264,6 +269,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#0C6BFF",
     paddingBottom: 15,
+    fontFamily:"Inter-Bold"
   },
   map: {
     width: "100%",
@@ -280,5 +286,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#0C6BFF",
     marginTop: 10,
+    fontFamily:"Inter-Bold"
   },
 });

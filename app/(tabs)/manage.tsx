@@ -327,10 +327,12 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: "bold",
     color: "#0C6BFF",
+    fontFamily:"Inter-Bold"
   },
   seatsLabel: {
     fontSize: 14,
     fontWeight: 300,
+    fontFamily:"Inter-Light"
   },
   seatsManagment: {
     flexDirection: "column",
@@ -344,6 +346,7 @@ const styles = StyleSheet.create({
     fontSize: 60,
     fontWeight: 800,
     color: "#212121",
+    fontFamily:"Inter-Bold"
   },
   customButtonStyleContainer: {
     flexDirection: "row",
@@ -363,6 +366,7 @@ const styles = StyleSheet.create({
   statusLabel: {
     fontSize: 14,
     fontWeight: 300,
+    fontFamily:"Inter-Light"
   },
   separator: {
     marginVertical: 15,
@@ -399,6 +403,7 @@ const styles = StyleSheet.create({
   routeLabel: {
     fontSize: 14,
     fontWeight: 300,
+    fontFamily:"Inter-Light"
   },
   routeOptions: {
     paddingTop: 15,
@@ -417,6 +422,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#0C6BFF",
     alignItems: "center",
+    fontFamily:"Inter-Bold"
   },
   footer: {
     flex: 1,
