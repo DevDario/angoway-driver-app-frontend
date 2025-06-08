@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import { getToken } from "../utils/secure-store";
 
-const BACKEND_URL = "http://192.168.18.16:3000";
+const BACKEND_URL = "http://localhost:3000";
 
 const socket = io(BACKEND_URL, {
   autoConnect: false,
