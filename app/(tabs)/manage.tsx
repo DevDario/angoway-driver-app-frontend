@@ -164,7 +164,7 @@ export default function Manage() {
         <View style={styles.statusOptions}>
           <Button
             buttonStyle={styles.customButtonStyle}
-            text="ACCIDENT"
+            text="Acidente"
             onPress={() => handleStatusUpdate("ACCIDENT")}
             disabled={
               data?.status === "ACCIDENT" ||
